@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 236795733180227913}
   - component: {fileID: 8361616127956724686}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6644289079127756409}
   - component: {fileID: 2536883088682464881}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1504064897501139121}
   - component: {fileID: 9182297543446774024}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9026920312212776110}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Human Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513962440032269531}
   - component: {fileID: 6086882587857502021}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,7 +373,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7064739576069197557}
   - component: {fileID: 7918054786352329733}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}

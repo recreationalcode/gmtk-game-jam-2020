@@ -74,7 +74,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 8
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -94,10 +94,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961c5d410c412462aa999ced8d253fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  minimumMoveSpeed: 1
-  killMoveSpeed: 10
+  moveSpeed: 10
+  minimumMoveSpeed: 5
+  killMoveSpeed: 20
   coldBloodPerKill: 20
+  coldBloodPerProjectile: 2
   rigidBody: {fileID: 5075623389734257907}
 --- !u!114 &4287035276311123191
 MonoBehaviour:
@@ -126,7 +127,7 @@ GameObject:
   - component: {fileID: 5327656629634064736}
   - component: {fileID: 5928416238321409107}
   - component: {fileID: 7184357869249593306}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: KillZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

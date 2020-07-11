@@ -4,14 +4,20 @@ using System.Collections;
 public class HumanController : MonoBehaviour
 {
   public float moveSpeed = 1f;
-  public bool shouldMove = true;
   public Rigidbody2D rigidBody;
   public Vector3 target;
+  public float zombieDetectionDistance = 5f;
+  public float projectileForce = 1f;
+  public float timeBetweenProjectiles = 1.0f;
+  public GameObject projectilePrefab;
 
+
+  private bool shouldMove = true;
   private bool isMoving = false;
-
   private Vector3 currentTarget;
   private Vector3 futureTarget;
+  private Coroutine moveCoroutine;
+  private Coroutine zombieDetectionCoroutine;
 
   void Start()
   {
@@ -21,10 +27,29 @@ public class HumanController : MonoBehaviour
 
   void Update()
   {
-    if (!isMoving)
+    if (shouldMove && !isMoving)
     {
       isMoving = true;
-      StartCoroutine(MoveToTarget());
+      moveCoroutine = StartCoroutine(MoveToTarget());
+    }
+
+    if (zombieDetectionCoroutine == null)
+    {
+      RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, zombieDetectionDistance, LayerMask.GetMask("Default"));
+
+      if (hit.collider != null && hit.collider.gameObject.tag.Equals("Player"))
+      {
+        Debug.Log("ZOMBIE!!! Ahhhhhh!!!");
+
+        shouldMove = false;
+
+        if (moveCoroutine != null)
+        {
+          StopCoroutine(moveCoroutine);
+        }
+
+        zombieDetectionCoroutine = StartCoroutine(HandleZombieDetection(hit.transform));
+      }
     }
   }
 
@@ -52,5 +77,20 @@ public class HumanController : MonoBehaviour
     futureTarget = target;
 
     isMoving = false;
+  }
+
+  IEnumerator HandleZombieDetection(Transform zombie)
+  {
+    while (true)
+    {
+      transform.up = zombie.position - transform.position;
+
+      GameObject projectile = Instantiate(projectilePrefab, transform.position + transform.up, Quaternion.identity);
+      Rigidbody2D projectileRigidbody = projectile.GetComponent<Rigidbody2D>();
+      projectileRigidbody.AddForce(transform.up * projectileForce, ForceMode2D.Impulse);
+
+      yield return new WaitForSeconds(timeBetweenProjectiles);
+      yield return new WaitForFixedUpdate();
+    }
   }
 }

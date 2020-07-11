@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2263033625350407966}
   - component: {fileID: 4954076354644433159}
   - component: {fileID: 2263033625350407967}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Human
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,9 +93,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  shouldMove: 1
   rigidBody: {fileID: 2263033625350407966}
   target: {x: 0, y: 0, z: 0}
+  zombieDetectionDistance: 20
+  projectileForce: 40
+  timeBetweenProjectiles: 0.5
+  projectilePrefab: {fileID: 6716682339894069258, guid: ba435878320b24b2888e07ec44422651,
+    type: 3}
 --- !u!1001 &6428099185695573212
 PrefabInstance:
   m_ObjectHideFlags: 0

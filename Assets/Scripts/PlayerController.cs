@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
   public float minimumMoveSpeed = 1f;
   public float killMoveSpeed = 15f;
   public float coldBloodPerKill = 20.0f;
+  public float coldBloodPerProjectile = 2.0f;
 
   public Rigidbody2D rigidBody;
 
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
   private LinkedList<HumanController> targets;
   private HumanController currentTarget;
+  private Coroutine attackCoroutine;
 
   private
 
@@ -38,7 +40,14 @@ public class PlayerController : MonoBehaviour
       currentTarget = targets.Last.Value;
       targets.RemoveLast();
 
-      StartCoroutine(MoveToTarget(currentTarget.GetPosition()));
+      if (currentTarget != null)
+      {
+        attackCoroutine = StartCoroutine(Attack(currentTarget.GetPosition()));
+      }
+      else
+      {
+        shouldMove = true;
+      }
     }
   }
 
@@ -82,10 +91,26 @@ public class PlayerController : MonoBehaviour
       Destroy(human.gameObject);
 
       coldBloodManager.AddColdBlood(coldBloodPerKill);
+
+      if (attackCoroutine != null)
+      {
+        StopCoroutine(attackCoroutine);
+      }
+
+      shouldMove = true;
+
+      return;
+    }
+
+    ProjectileController projectile = other.gameObject.GetComponent<ProjectileController>();
+
+    if (projectile != null)
+    {
+      coldBloodManager.RemoveColdBlood(coldBloodPerProjectile);
     }
   }
 
-  IEnumerator MoveToTarget(Vector3 target)
+  IEnumerator Attack(Vector3 target)
   {
     Vector3 currentPosition = transform.position;
 
