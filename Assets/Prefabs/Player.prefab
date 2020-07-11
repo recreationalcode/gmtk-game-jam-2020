@@ -98,8 +98,9 @@ MonoBehaviour:
   minimumMoveSpeed: 5
   killMoveSpeed: 20
   coldBloodPerKill: 20
-  coldBloodPerProjectile: 2
+  coldBloodPerProjectile: 4
   rigidBody: {fileID: 5075623389734257907}
+  bodyCountLabel: {fileID: 0}
 --- !u!114 &4287035276311123191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numVertices: 360
-  radius: 5
+  radius: 10
   width: 0.1
 --- !u!114 &7184357869249593306
 MonoBehaviour:

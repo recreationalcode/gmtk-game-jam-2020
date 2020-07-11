@@ -21,13 +21,12 @@ public class HumanController : MonoBehaviour
 
   void Start()
   {
-    currentTarget = target;
     futureTarget = transform.position;
   }
 
   void Update()
   {
-    if (shouldMove && !isMoving)
+    if (shouldMove && !isMoving && currentTarget != null)
     {
       isMoving = true;
       moveCoroutine = StartCoroutine(MoveToTarget());
@@ -51,6 +50,12 @@ public class HumanController : MonoBehaviour
         zombieDetectionCoroutine = StartCoroutine(HandleZombieDetection(hit.transform));
       }
     }
+  }
+
+  public void SetTarget(Vector3 target)
+  {
+    this.target = target;
+    this.currentTarget = target;
   }
 
   public Vector3 GetPosition()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
   public float coldBloodPerProjectile = 2.0f;
 
   public Rigidbody2D rigidBody;
+  public Text bodyCountLabel;
 
   private ColdBloodManager coldBloodManager;
   private bool shouldMove = true;
@@ -20,7 +22,7 @@ public class PlayerController : MonoBehaviour
   private HumanController currentTarget;
   private Coroutine attackCoroutine;
 
-  private
+  private int humanBodyCount = 0;
 
   void Start()
   {
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
   {
     movement.x = Input.GetAxisRaw("Horizontal");
     movement.y = Input.GetAxisRaw("Vertical");
+
+    bodyCountLabel.text = string.Format("{0:0} body count", humanBodyCount);
 
     if (shouldMove && targets.Count > 0)
     {
@@ -75,6 +79,11 @@ public class PlayerController : MonoBehaviour
     }
   }
 
+  public int GetBodyCount()
+  {
+    return humanBodyCount;
+  }
+
   void OnCollisionEnter2D(Collision2D other)
   {
     HumanController human = other.gameObject.GetComponent<HumanController>();
@@ -89,6 +98,8 @@ public class PlayerController : MonoBehaviour
       targets.Remove(human);
 
       Destroy(human.gameObject);
+
+      humanBodyCount++;
 
       coldBloodManager.AddColdBlood(coldBloodPerKill);
 
