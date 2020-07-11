@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
 
     if (shouldMove && targets.Count > 0)
     {
-      Debug.Log("Targets: " + targets.Count);
       shouldMove = false;
 
       currentTarget = targets.Last.Value;
@@ -45,11 +44,18 @@ public class PlayerController : MonoBehaviour
 
   void FixedUpdate()
   {
-    if (shouldMove)
+    if (shouldMove && (movement.x != 0.0f || movement.y != 0.0f))
     {
+      RotateTowards(transform.position + new Vector3(movement.x, movement.y, 0));
+
       float finalMoveSpeed = Mathf.Max(minimumMoveSpeed, moveSpeed * coldBloodManager.GetColdBloodPercentage());
       rigidBody.MovePosition(rigidBody.position + (movement * finalMoveSpeed * Time.fixedDeltaTime));
     }
+  }
+
+  void RotateTowards(Vector3 target)
+  {
+    transform.up = target - transform.position;
   }
 
   public void Kill(HumanController human)
@@ -82,6 +88,8 @@ public class PlayerController : MonoBehaviour
   IEnumerator MoveToTarget(Vector3 target)
   {
     Vector3 currentPosition = transform.position;
+
+    RotateTowards(target);
 
     float t = 0.0f;
     float timeToTarget = Vector3.Distance(currentPosition, target) / killMoveSpeed;
