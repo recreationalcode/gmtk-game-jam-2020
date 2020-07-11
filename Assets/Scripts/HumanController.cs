@@ -85,7 +85,7 @@ public class HumanController : MonoBehaviour
     {
       transform.up = zombie.position - transform.position;
 
-      GameObject projectile = Instantiate(projectilePrefab, transform.position + transform.up, Quaternion.identity);
+      GameObject projectile = Instantiate(projectilePrefab, transform.position + transform.up, transform.rotation);
       Rigidbody2D projectileRigidbody = projectile.GetComponent<Rigidbody2D>();
       projectileRigidbody.AddForce(transform.up * projectileForce, ForceMode2D.Impulse);
 

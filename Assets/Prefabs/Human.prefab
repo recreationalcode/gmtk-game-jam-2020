@@ -96,9 +96,9 @@ MonoBehaviour:
   rigidBody: {fileID: 2263033625350407966}
   target: {x: 0, y: 0, z: 0}
   zombieDetectionDistance: 20
-  projectileForce: 40
+  projectileForce: 75
   timeBetweenProjectiles: 0.5
-  projectilePrefab: {fileID: 6716682339894069258, guid: ba435878320b24b2888e07ec44422651,
+  projectilePrefab: {fileID: 5906474646105102521, guid: f277fd61160aa4244a79055cac8c80cc,
     type: 3}
 --- !u!1001 &6428099185695573212
 PrefabInstance:
