@@ -28,6 +28,11 @@ public class HumanController : MonoBehaviour
     }
   }
 
+  public Vector3 GetPosition()
+  {
+    return transform.position;
+  }
+
   IEnumerator MoveToTarget()
   {
     float t = 0.0f;

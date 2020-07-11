@@ -5,11 +5,13 @@ public class GameController : MonoBehaviour
 
   public void Win()
   {
+    Debug.Log("You live to see another day! Well, kinda ...!");
     QuitGame();
   }
 
   public void Lose()
   {
+    Debug.Log("You died again! This time for real.");
     QuitGame();
   }
 

@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
   public float moveSpeed = 5f;
+  public float minimumMoveSpeed = 1f;
   public float killMoveSpeed = 15f;
   public float coldBloodPerKill = 20.0f;
 
@@ -13,36 +15,68 @@ public class PlayerController : MonoBehaviour
   private bool shouldMove = true;
   private Vector2 movement;
 
+  private LinkedList<HumanController> targets;
+  private HumanController currentTarget;
+
+  private
+
   void Start()
   {
     coldBloodManager = GetComponent<ColdBloodManager>();
+    targets = new LinkedList<HumanController>();
   }
 
   void Update()
   {
     movement.x = Input.GetAxisRaw("Horizontal");
     movement.y = Input.GetAxisRaw("Vertical");
+
+    if (shouldMove && targets.Count > 0)
+    {
+      Debug.Log("Targets: " + targets.Count);
+      shouldMove = false;
+
+      currentTarget = targets.Last.Value;
+      targets.RemoveLast();
+
+      StartCoroutine(MoveToTarget(currentTarget.GetPosition()));
+    }
   }
 
   void FixedUpdate()
   {
     if (shouldMove)
     {
-      rigidBody.MovePosition(rigidBody.position + (movement * moveSpeed * Time.fixedDeltaTime));
+      float finalMoveSpeed = Mathf.Max(minimumMoveSpeed, moveSpeed * coldBloodManager.GetColdBloodPercentage());
+      rigidBody.MovePosition(rigidBody.position + (movement * finalMoveSpeed * Time.fixedDeltaTime));
     }
   }
 
   public void Kill(HumanController human)
   {
-    shouldMove = false;
-
-    StartCoroutine(MoveToTarget(human.gameObject.transform.position));
+    if (currentTarget != human && !targets.Contains(human))
+    {
+      targets.AddLast(human);
+    }
   }
 
   void OnCollisionEnter2D(Collision2D other)
   {
-    Destroy(other.gameObject);
-    coldBloodManager.AddColdBlood(coldBloodPerKill);
+    HumanController human = other.gameObject.GetComponent<HumanController>();
+
+    if (human != null)
+    {
+      if (currentTarget == human)
+      {
+        currentTarget = null;
+      }
+
+      targets.Remove(human);
+
+      Destroy(human.gameObject);
+
+      coldBloodManager.AddColdBlood(coldBloodPerKill);
+    }
   }
 
   IEnumerator MoveToTarget(Vector3 target)

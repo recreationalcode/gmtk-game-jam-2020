@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  minimumMoveSpeed: 1
   killMoveSpeed: 10
   coldBloodPerKill: 20
   rigidBody: {fileID: 5075623389734257907}
@@ -151,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coldBloodLabel: {fileID: 0}
   totalColdBlood: 100
-  coldBloodLossRate: 0.1
+  coldBloodLossRate: 0.025
 --- !u!1 &5655154364667157274
 GameObject:
   m_ObjectHideFlags: 0

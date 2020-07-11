@@ -29,6 +29,11 @@ public class ColdBloodManager : MonoBehaviour
     DepleteColdBlood(coldBloodLossRate * Time.deltaTime);
   }
 
+  public float GetColdBloodPercentage()
+  {
+    return coldBlood / totalColdBlood;
+  }
+
   public void AddColdBlood(float coldBlood)
   {
     this.coldBlood = Mathf.Min(totalColdBlood, this.coldBlood + coldBlood);
