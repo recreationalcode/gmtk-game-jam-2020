@@ -35,6 +35,8 @@ public class HumanController : MonoBehaviour
 
   IEnumerator MoveToTarget()
   {
+    transform.up = currentTarget - transform.position;
+
     float t = 0.0f;
     float timeToTarget = Vector3.Distance(transform.position, currentTarget) / moveSpeed;
 
