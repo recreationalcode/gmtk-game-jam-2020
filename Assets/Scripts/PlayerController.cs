@@ -5,11 +5,18 @@ public class PlayerController : MonoBehaviour
 {
   public float moveSpeed = 5f;
   public float killMoveSpeed = 15f;
+  public float coldBloodPerKill = 20.0f;
 
   public Rigidbody2D rigidBody;
 
+  private ColdBloodManager coldBloodManager;
   private bool shouldMove = true;
   private Vector2 movement;
+
+  void Start()
+  {
+    coldBloodManager = GetComponent<ColdBloodManager>();
+  }
 
   void Update()
   {
@@ -35,6 +42,7 @@ public class PlayerController : MonoBehaviour
   void OnCollisionEnter2D(Collision2D other)
   {
     Destroy(other.gameObject);
+    coldBloodManager.AddColdBlood(coldBloodPerKill);
   }
 
   IEnumerator MoveToTarget(Vector3 target)
