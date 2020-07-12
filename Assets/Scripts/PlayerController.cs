@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
   public float moveSpeed = 5f;
   public float minimumMoveSpeed = 1f;
   public float killMoveSpeed = 15f;
+  public float timeBetweenQuips = 5f;
   public float timeDisabledAfterKill = 0.5f;
   public float coldBloodPerKill = 20.0f;
   public float coldBloodPerProjectile = 2.0f;
@@ -20,7 +21,8 @@ public class PlayerController : MonoBehaviour
 
   public Rigidbody2D rigidBody;
   public Animator playerAnimator;
-  public GameObject bloodSpatterEffect;
+  public GameObject zombieBloodSpatterEffect;
+  public GameObject humanBloodSpatterEffect;
   public TextMeshProUGUI bodyCountLabel;
   public TextMeshProUGUI highestBodyCountLabel;
   public AudioManager audioManager;
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour
   private CinemachineImpulseSource cinemachineImpulseSource;
   private ColdBloodManager coldBloodManager;
   private bool shouldMove = true;
+  private bool shouldTalk = true;
   private bool isGameStarted = false;
   private Vector2 movement;
 
@@ -121,18 +124,19 @@ public class PlayerController : MonoBehaviour
     {
       StopCoroutine(attackCoroutine);
     }
+    shouldMove = true;
+    isGameStarted = false;
 
     playerAnimator.SetBool("isMoving", false);
     playerAnimator.SetBool("isAttacking", false);
-
-    shouldMove = true;
-    isGameStarted = false;
 
     highestBodyCountLabel.enabled = true;
   }
 
   void PlayIdleSound()
   {
+    if (!shouldTalk) return;
+
     foreach (string sound in idleSounds)
     {
       if (audioManager.IsPlaying(sound))
@@ -157,11 +161,16 @@ public class PlayerController : MonoBehaviour
       }
     }
 
+    shouldTalk = false;
     audioManager.Play(idleSounds[Random.Range(0, idleSounds.Length)]);
+
+    StartCoroutine(StopTalking());
   }
 
   void PlayMovingSound()
   {
+    if (!shouldTalk) return;
+
     foreach (string sound in movingSounds)
     {
       if (audioManager.IsPlaying(sound))
@@ -186,8 +195,11 @@ public class PlayerController : MonoBehaviour
       }
     }
 
+    shouldTalk = false;
     audioManager.Play(movingSounds[Random.Range(0, movingSounds.Length)]);
 
+
+    StartCoroutine(StopTalking());
   }
 
   void PlayAttackingSound()
@@ -247,6 +259,11 @@ public class PlayerController : MonoBehaviour
 
       Destroy(human.gameObject);
 
+      Vector3 direction = (human.gameObject.transform.position - transform.position).normalized;
+
+      Instantiate(humanBloodSpatterEffect, transform.position + (1.5f * direction * circleCollider.radius), Quaternion.FromToRotation(humanBloodSpatterEffect.transform.up, direction));
+
+
       humanBodyCount++;
 
       coldBloodManager.AddColdBlood(coldBloodPerKill);
@@ -273,7 +290,7 @@ public class PlayerController : MonoBehaviour
 
       Vector3 direction = (projectile.gameObject.transform.position - transform.position).normalized;
 
-      Instantiate(bloodSpatterEffect, transform.position + (1.5f * direction * circleCollider.radius), Quaternion.FromToRotation(bloodSpatterEffect.transform.up, direction));
+      Instantiate(zombieBloodSpatterEffect, transform.position + (1.5f * direction * circleCollider.radius), Quaternion.FromToRotation(zombieBloodSpatterEffect.transform.up, direction));
     }
   }
 
@@ -318,5 +335,12 @@ public class PlayerController : MonoBehaviour
     playerAnimator.SetBool("isAttacking", false);
 
     shouldMove = true;
+  }
+
+  IEnumerator StopTalking()
+  {
+    yield return new WaitForSeconds(timeBetweenQuips);
+
+    shouldTalk = true;
   }
 }

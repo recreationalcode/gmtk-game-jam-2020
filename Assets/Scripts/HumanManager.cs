@@ -99,6 +99,7 @@ public class HumanManager : MonoBehaviour
 
       humanController.SetTarget(targetPosition);
       humanController.SetAudioManager(audioManager);
+      humanController.timeBetweenProjectiles = humanController.timeBetweenProjectiles - Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve) / 100;
 
       return true;
     }

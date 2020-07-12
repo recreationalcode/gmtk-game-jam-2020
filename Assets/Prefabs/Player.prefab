@@ -98,9 +98,10 @@ MonoBehaviour:
   moveSpeed: 10
   minimumMoveSpeed: 5
   killMoveSpeed: 20
+  timeBetweenQuips: 5
   timeDisabledAfterKill: 0.5
   coldBloodPerKill: 20
-  coldBloodPerProjectile: 4
+  coldBloodPerProjectile: 5
   idleSounds:
   - Idle Zombie 1
   - Idle Zombie 2
@@ -113,9 +114,12 @@ MonoBehaviour:
   - Attacking Zombie 1
   rigidBody: {fileID: 5075623389734257907}
   playerAnimator: {fileID: 5516118323212829756}
-  bloodSpatterEffect: {fileID: 5850339597905945888, guid: cff819b5bd7454eb181777128df65c99,
+  zombieBloodSpatterEffect: {fileID: 5850339597905945888, guid: cff819b5bd7454eb181777128df65c99,
+    type: 3}
+  humanBloodSpatterEffect: {fileID: 7740507354245807003, guid: 72e90aaf37b4c4916a19c2172c24236a,
     type: 3}
   bodyCountLabel: {fileID: 0}
+  highestBodyCountLabel: {fileID: 0}
   audioManager: {fileID: 0}
 --- !u!114 &4287035276311123191
 MonoBehaviour:
@@ -147,7 +151,7 @@ MonoBehaviour:
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
     m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
-    m_AmplitudeGain: 8
+    m_AmplitudeGain: 12
     m_FrequencyGain: 0.9
     m_RepeatMode: 0
     m_Randomize: 1

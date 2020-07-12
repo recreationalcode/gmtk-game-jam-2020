@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c929c018065ec48dcb6ed89948e11a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 4
   rigidBody: {fileID: 2263033625350407966}
   target: {x: 0, y: 0, z: 0}
   zombieDetectionDistance: 30
