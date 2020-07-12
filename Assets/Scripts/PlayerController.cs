@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,20 +21,25 @@ public class PlayerController : MonoBehaviour
   public Rigidbody2D rigidBody;
   public Animator playerAnimator;
   public GameObject bloodSpatterEffect;
-  public Text bodyCountLabel;
+  public TextMeshProUGUI bodyCountLabel;
+  public TextMeshProUGUI highestBodyCountLabel;
   public AudioManager audioManager;
 
   private CircleCollider2D circleCollider;
   private CinemachineImpulseSource cinemachineImpulseSource;
   private ColdBloodManager coldBloodManager;
   private bool shouldMove = true;
+  private bool isGameStarted = false;
   private Vector2 movement;
 
   private LinkedList<HumanController> targets;
   private HumanController currentTarget;
   private Coroutine attackCoroutine;
 
+  private int highestBodyCount = 0;
   private int humanBodyCount = 0;
+  private int combo = 0;
+  private int highestCombo = 0;
 
   void Start()
   {
@@ -45,10 +51,13 @@ public class PlayerController : MonoBehaviour
 
   void Update()
   {
+    bodyCountLabel.SetText(string.Format("body count: {0:0}", humanBodyCount));
+    highestBodyCountLabel.SetText(string.Format("highest body count: {0:0}", highestBodyCount));
+
+    if (!isGameStarted) return;
+
     movement.x = Input.GetAxisRaw("Horizontal");
     movement.y = Input.GetAxisRaw("Vertical");
-
-    bodyCountLabel.text = string.Format("{0:0} body count", humanBodyCount);
 
     if (shouldMove && targets.Count > 0)
     {
@@ -93,6 +102,35 @@ public class PlayerController : MonoBehaviour
     }
   }
 
+  public void StartPlaying()
+  {
+    highestBodyCountLabel.enabled = false;
+
+    humanBodyCount = 0;
+
+    isGameStarted = true;
+  }
+
+  public void StopPlaying()
+  {
+    if (humanBodyCount > highestBodyCount) highestBodyCount = humanBodyCount;
+
+    coldBloodManager.ResetColdBlood();
+
+    if (attackCoroutine != null)
+    {
+      StopCoroutine(attackCoroutine);
+    }
+
+    playerAnimator.SetBool("isMoving", false);
+    playerAnimator.SetBool("isAttacking", false);
+
+    shouldMove = true;
+    isGameStarted = false;
+
+    highestBodyCountLabel.enabled = true;
+  }
+
   void PlayIdleSound()
   {
     foreach (string sound in idleSounds)
@@ -105,7 +143,10 @@ public class PlayerController : MonoBehaviour
 
     foreach (string sound in movingSounds)
     {
-      audioManager.Stop(sound);
+      if (audioManager.IsPlaying(sound))
+      {
+        return;
+      }
     }
 
     foreach (string sound in attackingSounds)
@@ -131,7 +172,10 @@ public class PlayerController : MonoBehaviour
 
     foreach (string sound in idleSounds)
     {
-      audioManager.Stop(sound);
+      if (audioManager.IsPlaying(sound))
+      {
+        return;
+      }
     }
 
     foreach (string sound in attackingSounds)

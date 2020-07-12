@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ColdBloodManager : MonoBehaviour
 {
 
-  public Text coldBloodLabel;
+  public TextMeshProUGUI coldBloodLabel;
   public float totalColdBlood = 100.0f;
   public float coldBloodLossRate = 0.1f;
 
@@ -19,14 +20,20 @@ public class ColdBloodManager : MonoBehaviour
 
   void Update()
   {
-    coldBloodLabel.text = string.Format("{0:0} cold blood", coldBlood);
+    coldBloodLabel.SetText(string.Format("{0:0} cold blood", coldBlood));
 
     if (coldBlood == 0.0f)
     {
       gameController.Lose();
     }
 
+    if (!gameController.isGameStarted) return;
     DepleteColdBlood(coldBloodLossRate * Time.deltaTime);
+  }
+
+  public void ResetColdBlood()
+  {
+    coldBlood = totalColdBlood;
   }
 
   public float GetColdBloodPercentage()

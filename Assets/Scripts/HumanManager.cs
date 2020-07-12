@@ -18,14 +18,13 @@ public class HumanManager : MonoBehaviour
 
   private int minHumans;
   private int maxHumans;
+  private bool shouldSpawn = false;
 
   public GameObject humanPrefab;
-  private GameController gameController;
   private PlayerController playerController;
 
   void Start()
   {
-    gameController = GameObject.Find("GameController").GetComponent<GameController>();
     playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     obstacleTilemap = GameObject.Find("ObstacleTilemap").GetComponent<Tilemap>();
 
@@ -35,15 +34,30 @@ public class HumanManager : MonoBehaviour
     StartCoroutine(SpawnHumans());
   }
 
+  public void StartSpawning()
+  {
+    shouldSpawn = true;
+  }
+
+  public void StopSpawning()
+  {
+    shouldSpawn = false;
+
+    foreach (Transform child in transform)
+    {
+      GameObject.Destroy(child.gameObject);
+    }
+  }
+
   void Update()
   {
-    if (transform.childCount < minHumans)
+    minHumans = startMinHumans + Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve);
+    maxHumans = startMaxHumans + Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve);
+
+    if (shouldSpawn && transform.childCount < minHumans)
     {
       SpawnHuman();
     }
-
-    minHumans = startMinHumans + Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve);
-    maxHumans = startMaxHumans + Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve);
   }
 
   Vector3 GetRandom2DPositionInArea(Vector3 bottomLeft, Vector3 topRight)
@@ -98,7 +112,7 @@ public class HumanManager : MonoBehaviour
   {
     while (true)
     {
-      if (transform.childCount < maxHumans)
+      if (shouldSpawn && transform.childCount < maxHumans)
       {
         while (!SpawnHuman()) { };
       }
