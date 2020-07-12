@@ -101,6 +101,12 @@ MonoBehaviour:
   timeBetweenProjectiles: 0.8
   projectilePrefab: {fileID: 5906474646105102521, guid: f277fd61160aa4244a79055cac8c80cc,
     type: 3}
+  audioManager: {fileID: 0}
+  attackingSounds:
+  - Human Zombie 1
+  - Human Zombie 2
+  - Human Zombie 3
+  - Human Zombie 4
 --- !u!1001 &6428099185695573212
 PrefabInstance:
   m_ObjectHideFlags: 0

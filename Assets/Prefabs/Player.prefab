@@ -101,11 +101,22 @@ MonoBehaviour:
   timeDisabledAfterKill: 0.5
   coldBloodPerKill: 20
   coldBloodPerProjectile: 4
+  idleSounds:
+  - Idle Zombie 1
+  - Idle Zombie 2
+  - Idle Zombie 3
+  movingSounds:
+  - Moving Zombie 1
+  - Moving Zombie 2
+  - Moving Zombie 3
+  attackingSounds:
+  - Attacking Zombie 1
   rigidBody: {fileID: 5075623389734257907}
   playerAnimator: {fileID: 5516118323212829756}
   bloodSpatterEffect: {fileID: 5850339597905945888, guid: cff819b5bd7454eb181777128df65c99,
     type: 3}
   bodyCountLabel: {fileID: 0}
+  audioManager: {fileID: 0}
 --- !u!114 &4287035276311123191
 MonoBehaviour:
   m_ObjectHideFlags: 0

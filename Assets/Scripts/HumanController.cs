@@ -11,6 +11,8 @@ public class HumanController : MonoBehaviour
   public float projectileForce = 1f;
   public float timeBetweenProjectiles = 1.0f;
   public GameObject projectilePrefab;
+  public AudioManager audioManager;
+  public string[] attackingSounds;
 
 
   private bool shouldMove = true;
@@ -43,8 +45,6 @@ public class HumanController : MonoBehaviour
 
       if (hit.collider != null && hit.collider.gameObject.tag.Equals("Player"))
       {
-        Debug.Log("ZOMBIE!!! Ahhhhhh!!!");
-
         shouldMove = false;
 
         if (moveCoroutine != null)
@@ -61,6 +61,32 @@ public class HumanController : MonoBehaviour
   {
     this.target = target;
     this.currentTarget = target;
+  }
+
+  public void SetAudioManager(AudioManager audioManager)
+  {
+    this.audioManager = audioManager;
+  }
+
+  void PlayAttackingSound()
+  {
+    foreach (string sound in attackingSounds)
+    {
+      if (audioManager.IsPlaying(sound))
+      {
+        return;
+      }
+    }
+
+    audioManager.Play(attackingSounds[Random.Range(0, attackingSounds.Length)]);
+  }
+
+  void OnDestroy()
+  {
+    foreach (string sound in attackingSounds)
+    {
+      audioManager.Stop(sound);
+    }
   }
 
   public Vector3 GetPosition()
@@ -91,6 +117,8 @@ public class HumanController : MonoBehaviour
 
   IEnumerator HandleZombieDetection(Transform zombie)
   {
+    PlayAttackingSound();
+
     while (true)
     {
       transform.up = zombie.position - transform.position;

@@ -855,6 +855,11 @@ PrefabInstance:
       propertyPath: bodyCountLabel
       value: 
       objectReference: {fileID: 1869202842}
+    - target: {fileID: 5075623389734257910, guid: 3510a3b91ffe6411dad169161cc9b02f,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 605066701}
     - target: {fileID: 5075623389734257911, guid: 3510a3b91ffe6411dad169161cc9b02f,
         type: 3}
       propertyPath: m_RootOrder
@@ -875,7 +880,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5380644439789917309, guid: 3510a3b91ffe6411dad169161cc9b02f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3510a3b91ffe6411dad169161cc9b02f, type: 3}
 --- !u!4 &373856813 stripped
 Transform:
@@ -1187,6 +1193,177 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &605066700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 605066702}
+  - component: {fileID: 605066701}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &605066701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605066700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07858fdc3cfe43549d15c1d6fe0693f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixerGroup: {fileID: 24300002, guid: 6d2e1950c2f6847628bf23a06e92ae68, type: 2}
+  sounds:
+  - name: Title Music
+    clip: {fileID: 8300000, guid: 60f9c324bae8f466ca351721901fc456, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Game Music
+    clip: {fileID: 8300000, guid: 2ab1cb4efc71d4121a6ae4a01c40f116, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 1
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Idle Zombie 1
+    clip: {fileID: 8300000, guid: e5438b1856e364dacbcc64b601674f74, type: 3}
+    volume: 0.7
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Idle Zombie 2
+    clip: {fileID: 8300000, guid: 93bb9c83c8a58411581d468423aff4d1, type: 3}
+    volume: 0.7
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Idle Zombie 3
+    clip: {fileID: 8300000, guid: aefe308a4e8b949ff80a88c61c0d68da, type: 3}
+    volume: 0.7
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Moving Zombie 1
+    clip: {fileID: 8300000, guid: 9bc541e51fcd84a84b0ccf4f3adceadb, type: 3}
+    volume: 0.7
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Moving Zombie 2
+    clip: {fileID: 8300000, guid: 7c66fe0361e5a4079967c8d65c61944a, type: 3}
+    volume: 0.7
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Moving Zombie 3
+    clip: {fileID: 8300000, guid: 8bf4930ac92b24302ba597b36a736f59, type: 3}
+    volume: 0.7
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Attacking Zombie 1
+    clip: {fileID: 8300000, guid: d48a8de5298c04705857fd1866e8b3f0, type: 3}
+    volume: 0.4
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Human Zombie 1
+    clip: {fileID: 8300000, guid: f4899d1b8908b49678b58615cdc9f0eb, type: 3}
+    volume: 0.4
+    volumeVariance: 0
+    pitch: 1.3
+    pitchVariance: 0.2
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Human Zombie 2
+    clip: {fileID: 8300000, guid: 652d0209e4e784939829c6374ae70b0c, type: 3}
+    volume: 0.4
+    volumeVariance: 0
+    pitch: 1.3
+    pitchVariance: 0.2
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Human Zombie 3
+    clip: {fileID: 8300000, guid: 1a54db31e9fdf4dee931909570b93ebc, type: 3}
+    volume: 0.4
+    volumeVariance: 0
+    pitch: 1.3
+    pitchVariance: 0.2
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Human Zombie 4
+    clip: {fileID: 8300000, guid: a3566fa93bc7e4349b06d2416ec9d0a0, type: 3}
+    volume: 0.4
+    volumeVariance: 0
+    pitch: 1.3
+    pitchVariance: 0.2
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Human Zombie 4
+    clip: {fileID: 8300000, guid: a3566fa93bc7e4349b06d2416ec9d0a0, type: 3}
+    volume: 0.4
+    volumeVariance: 0
+    pitch: 1.3
+    pitchVariance: 0.2
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+--- !u!4 &605066702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605066700}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &649253582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,6 +1485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ed585e8cdae4f3abc05d3e6936a32a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 605066701}
 --- !u!4 &756894064
 Transform:
   m_ObjectHideFlags: 0
@@ -6276,74 +6454,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5440082405852613275, guid: 9262974db09f84aee81b0fe488fc7872,
+        type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 605066701}
+    - target: {fileID: 5440082405852613275, guid: 9262974db09f84aee81b0fe488fc7872,
+        type: 3}
+      propertyPath: obstacleTilemap
+      value: 
+      objectReference: {fileID: 143112899}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9262974db09f84aee81b0fe488fc7872, type: 3}
---- !u!1001 &8308914097764411996
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174874136548273049, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5850339597905945888, guid: cff819b5bd7454eb181777128df65c99,
-        type: 3}
-      propertyPath: m_Name
-      value: BloodSpatterEffect
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cff819b5bd7454eb181777128df65c99, type: 3}

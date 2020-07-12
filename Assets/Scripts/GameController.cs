@@ -3,6 +3,19 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
 
+  public AudioManager audioManager;
+
+  void Start()
+  {
+    // audioManager.Play("Title Music");
+    audioManager.Play("Game Music");
+  }
+
+  void StartGame()
+  {
+    audioManager.Play("Game Music");
+  }
+
   public void Win()
   {
     Debug.Log("You live to see another day! Well, kinda ...!");

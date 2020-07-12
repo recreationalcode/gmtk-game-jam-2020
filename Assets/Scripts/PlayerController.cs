@@ -13,10 +13,15 @@ public class PlayerController : MonoBehaviour
   public float coldBloodPerKill = 20.0f;
   public float coldBloodPerProjectile = 2.0f;
 
+  public string[] idleSounds;
+  public string[] movingSounds;
+  public string[] attackingSounds;
+
   public Rigidbody2D rigidBody;
   public Animator playerAnimator;
   public GameObject bloodSpatterEffect;
   public Text bodyCountLabel;
+  public AudioManager audioManager;
 
   private CircleCollider2D circleCollider;
   private CinemachineImpulseSource cinemachineImpulseSource;
@@ -70,6 +75,9 @@ public class PlayerController : MonoBehaviour
   {
     if (shouldMove && (movement.x != 0.0f || movement.y != 0.0f))
     {
+
+      PlayMovingSound();
+
       playerAnimator.SetBool("isMoving", true);
 
       RotateTowards(transform.position + new Vector3(movement.x, movement.y, 0));
@@ -80,7 +88,86 @@ public class PlayerController : MonoBehaviour
     else
     {
       playerAnimator.SetBool("isMoving", false);
+
+      PlayIdleSound();
     }
+  }
+
+  void PlayIdleSound()
+  {
+    foreach (string sound in idleSounds)
+    {
+      if (audioManager.IsPlaying(sound))
+      {
+        return;
+      }
+    }
+
+    foreach (string sound in movingSounds)
+    {
+      audioManager.Stop(sound);
+    }
+
+    foreach (string sound in attackingSounds)
+    {
+      if (audioManager.IsPlaying(sound))
+      {
+        return;
+      }
+    }
+
+    audioManager.Play(idleSounds[Random.Range(0, idleSounds.Length)]);
+  }
+
+  void PlayMovingSound()
+  {
+    foreach (string sound in movingSounds)
+    {
+      if (audioManager.IsPlaying(sound))
+      {
+        return;
+      }
+    }
+
+    foreach (string sound in idleSounds)
+    {
+      audioManager.Stop(sound);
+    }
+
+    foreach (string sound in attackingSounds)
+    {
+      if (audioManager.IsPlaying(sound))
+      {
+        return;
+      }
+    }
+
+    audioManager.Play(movingSounds[Random.Range(0, movingSounds.Length)]);
+
+  }
+
+  void PlayAttackingSound()
+  {
+    foreach (string sound in attackingSounds)
+    {
+      if (audioManager.IsPlaying(sound))
+      {
+        return;
+      }
+    }
+
+    foreach (string sound in idleSounds)
+    {
+      audioManager.Stop(sound);
+    }
+
+    foreach (string sound in movingSounds)
+    {
+      audioManager.Stop(sound);
+
+    }
+
+    audioManager.Play(attackingSounds[Random.Range(0, attackingSounds.Length)]);
   }
 
   void RotateTowards(Vector3 target)
@@ -169,6 +256,8 @@ public class PlayerController : MonoBehaviour
 
         float t = 0.0f;
         float timeToTarget = Vector3.Distance(currentPosition, target) / killMoveSpeed;
+
+        PlayAttackingSound();
 
         while (t < timeToTarget)
         {

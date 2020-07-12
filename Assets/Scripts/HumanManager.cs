@@ -14,6 +14,7 @@ public class HumanManager : MonoBehaviour
   public Vector3 spawnAreaBottomLeft = new Vector3(-20f, -20f);
   public Vector3 spawnAreaTopRight = new Vector3(20f, 20f);
   public Tilemap obstacleTilemap;
+  public AudioManager audioManager;
 
   private int minHumans;
   private int maxHumans;
@@ -83,6 +84,7 @@ public class HumanManager : MonoBehaviour
       HumanController humanController = human.GetComponent<HumanController>();
 
       humanController.SetTarget(targetPosition);
+      humanController.SetAudioManager(audioManager);
 
       return true;
     }
