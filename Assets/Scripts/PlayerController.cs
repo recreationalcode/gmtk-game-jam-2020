@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
   public float moveSpeed = 5f;
   public float minimumMoveSpeed = 1f;
   public float killMoveSpeed = 15f;
+  public float timeDisabledAfterKill = 0.5f;
   public float coldBloodPerKill = 20.0f;
   public float coldBloodPerProjectile = 2.0f;
 
@@ -137,6 +138,8 @@ public class PlayerController : MonoBehaviour
       rigidBody.MovePosition(Vector3.Lerp(currentPosition, target, t / timeToTarget));
       yield return new WaitForFixedUpdate();
     }
+
+    yield return new WaitForSeconds(timeDisabledAfterKill);
 
     shouldMove = true;
   }

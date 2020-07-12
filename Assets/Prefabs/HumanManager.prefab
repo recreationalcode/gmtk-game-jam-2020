@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startMinHumans: 8
-  startMaxHumans: 25
+  startMaxHumans: 20
   timeBetweenNormalHumanSpawns: 2.5
   humanMaxMoveRadius: 15
   difficultyCurve: 0.2

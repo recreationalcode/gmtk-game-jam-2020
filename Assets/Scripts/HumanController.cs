@@ -7,6 +7,7 @@ public class HumanController : MonoBehaviour
   public Rigidbody2D rigidBody;
   public Vector3 target;
   public float zombieDetectionDistance = 5f;
+  public float zombieDetectionMaxAngle = 5f;
   public float projectileForce = 1f;
   public float timeBetweenProjectiles = 1.0f;
   public GameObject projectilePrefab;
@@ -34,7 +35,11 @@ public class HumanController : MonoBehaviour
 
     if (zombieDetectionCoroutine == null)
     {
-      RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, zombieDetectionDistance, LayerMask.GetMask("Default"));
+      RaycastHit2D hit = Physics2D.Raycast(
+        transform.position,
+        Quaternion.Euler(0, 0, Random.Range(-zombieDetectionMaxAngle, zombieDetectionMaxAngle)) * transform.up,
+        zombieDetectionDistance,
+        LayerMask.GetMask("Default"));
 
       if (hit.collider != null && hit.collider.gameObject.tag.Equals("Player"))
       {
