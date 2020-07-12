@@ -13,6 +13,14 @@ public class KillZoneController : MonoBehaviour
 
   void OnTriggerEnter2D(Collider2D other)
   {
-    playerController.Kill(other.gameObject.GetComponent<HumanController>());
+    RaycastHit2D hit = Physics2D.Linecast(transform.position, other.transform.position);
+
+    if (hit.collider != null)
+    {
+      if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9)
+      {
+        playerController.Kill(other.gameObject.GetComponent<HumanController>());
+      }
+    }
   }
 }

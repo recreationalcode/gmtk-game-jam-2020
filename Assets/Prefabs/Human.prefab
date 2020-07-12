@@ -63,7 +63,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &4954076354644433159
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -97,8 +97,8 @@ MonoBehaviour:
   target: {x: 0, y: 0, z: 0}
   zombieDetectionDistance: 30
   zombieDetectionMaxAngle: 5
-  projectileForce: 100
-  timeBetweenProjectiles: 0.4
+  projectileForce: 90
+  timeBetweenProjectiles: 0.8
   projectilePrefab: {fileID: 5906474646105102521, guid: f277fd61160aa4244a79055cac8c80cc,
     type: 3}
 --- !u!1001 &6428099185695573212

@@ -13,8 +13,10 @@ public class PlayerController : MonoBehaviour
   public float coldBloodPerProjectile = 2.0f;
 
   public Rigidbody2D rigidBody;
+  public Animator playerAnimator;
   public Text bodyCountLabel;
 
+  private CircleCollider2D circleCollider;
   private ColdBloodManager coldBloodManager;
   private bool shouldMove = true;
   private Vector2 movement;
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
   void Start()
   {
     coldBloodManager = GetComponent<ColdBloodManager>();
+    circleCollider = GetComponent<CircleCollider2D>();
     targets = new LinkedList<HumanController>();
   }
 
@@ -40,13 +43,16 @@ public class PlayerController : MonoBehaviour
 
     if (shouldMove && targets.Count > 0)
     {
-      shouldMove = false;
-
       currentTarget = targets.Last.Value;
       targets.RemoveLast();
 
       if (currentTarget != null)
       {
+
+        shouldMove = false;
+        playerAnimator.SetBool("isAttacking", true);
+        playerAnimator.SetBool("isMoving", false);
+
         attackCoroutine = StartCoroutine(Attack(currentTarget.GetPosition()));
       }
       else
@@ -60,10 +66,16 @@ public class PlayerController : MonoBehaviour
   {
     if (shouldMove && (movement.x != 0.0f || movement.y != 0.0f))
     {
+      playerAnimator.SetBool("isMoving", true);
+
       RotateTowards(transform.position + new Vector3(movement.x, movement.y, 0));
 
       float finalMoveSpeed = Mathf.Max(minimumMoveSpeed, moveSpeed * coldBloodManager.GetColdBloodPercentage());
       rigidBody.MovePosition(rigidBody.position + (movement * finalMoveSpeed * Time.fixedDeltaTime));
+    }
+    else
+    {
+      playerAnimator.SetBool("isMoving", false);
     }
   }
 
@@ -109,6 +121,8 @@ public class PlayerController : MonoBehaviour
         StopCoroutine(attackCoroutine);
       }
 
+      playerAnimator.SetBool("isAttacking", false);
+
       shouldMove = true;
 
       return;
@@ -126,20 +140,39 @@ public class PlayerController : MonoBehaviour
   {
     Vector3 currentPosition = transform.position;
 
-    RotateTowards(target);
+    Vector3 directionTowardsTarget = target - transform.position;
 
-    float t = 0.0f;
-    float timeToTarget = Vector3.Distance(currentPosition, target) / killMoveSpeed;
+    RaycastHit2D hit = Physics2D.BoxCast(
+      currentPosition,
+      new Vector2(circleCollider.radius * 2, circleCollider.radius * 2),
+      Mathf.Atan2(directionTowardsTarget.y, directionTowardsTarget.x) * Mathf.Rad2Deg,
+      directionTowardsTarget.normalized);
 
-    while (t < timeToTarget)
+    if (hit.collider != null)
     {
-      t += Time.deltaTime;
 
-      rigidBody.MovePosition(Vector3.Lerp(currentPosition, target, t / timeToTarget));
-      yield return new WaitForFixedUpdate();
+      // Humans or Projectiles
+      if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9)
+      {
+
+        RotateTowards(target);
+
+        float t = 0.0f;
+        float timeToTarget = Vector3.Distance(currentPosition, target) / killMoveSpeed;
+
+        while (t < timeToTarget)
+        {
+          t += Time.deltaTime;
+
+          rigidBody.MovePosition(Vector3.Lerp(currentPosition, target, t / timeToTarget));
+          yield return new WaitForFixedUpdate();
+        }
+
+        yield return new WaitForSeconds(timeDisabledAfterKill);
+      }
     }
 
-    yield return new WaitForSeconds(timeDisabledAfterKill);
+    playerAnimator.SetBool("isAttacking", false);
 
     shouldMove = true;
   }
