@@ -39,7 +39,7 @@ public class HumanController : MonoBehaviour
         transform.position,
         Quaternion.Euler(0, 0, Random.Range(-zombieDetectionMaxAngle, zombieDetectionMaxAngle)) * transform.up,
         zombieDetectionDistance,
-        LayerMask.GetMask("Default"));
+        LayerMask.GetMask("Default", "Obstacles", "Zombies"));
 
       if (hit.collider != null && hit.collider.gameObject.tag.Equals("Player"))
       {

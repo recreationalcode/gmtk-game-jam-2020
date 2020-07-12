@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,9 +15,11 @@ public class PlayerController : MonoBehaviour
 
   public Rigidbody2D rigidBody;
   public Animator playerAnimator;
+  public GameObject bloodSpatterEffect;
   public Text bodyCountLabel;
 
   private CircleCollider2D circleCollider;
+  private CinemachineImpulseSource cinemachineImpulseSource;
   private ColdBloodManager coldBloodManager;
   private bool shouldMove = true;
   private Vector2 movement;
@@ -31,6 +34,7 @@ public class PlayerController : MonoBehaviour
   {
     coldBloodManager = GetComponent<ColdBloodManager>();
     circleCollider = GetComponent<CircleCollider2D>();
+    cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
     targets = new LinkedList<HumanController>();
   }
 
@@ -133,6 +137,12 @@ public class PlayerController : MonoBehaviour
     if (projectile != null)
     {
       coldBloodManager.RemoveColdBlood(coldBloodPerProjectile);
+
+      cinemachineImpulseSource.GenerateImpulse(-transform.forward);
+
+      Vector3 direction = (projectile.gameObject.transform.position - transform.position).normalized;
+
+      Instantiate(bloodSpatterEffect, transform.position + (1.5f * direction * circleCollider.radius), Quaternion.FromToRotation(bloodSpatterEffect.transform.up, direction));
     }
   }
 

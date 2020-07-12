@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8659481318371609339}
   - component: {fileID: 3751923017384794040}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6064926792461283921}
   - component: {fileID: 1951218326019285009}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Right Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7100992783756151302}
   - component: {fileID: 8528108204878604697}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4278883102331402195}
   - component: {fileID: 5700934986430042396}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Zombie Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5300186513710578512}
   - component: {fileID: 7797311279959660337}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Left Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8023717665282470977}
   - component: {fileID: 4274363521967046194}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
