@@ -6,6 +6,7 @@ public class HumanManager : MonoBehaviour
 {
   public int startMinHumans = 5;
   public int startMaxHumans = 20;
+  public int levelMaxHumans = 40;
   public float timeBetweenNormalHumanSpawns = 5f;
   public float humanMaxMoveRadius = 15f;
 
@@ -52,8 +53,8 @@ public class HumanManager : MonoBehaviour
 
   void Update()
   {
-    minHumans = startMinHumans + Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve);
-    maxHumans = startMaxHumans + Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve);
+    minHumans = Mathf.Min(levelMaxHumans, startMinHumans + Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve));
+    maxHumans = Mathf.Min(levelMaxHumans, startMaxHumans + Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve));
 
     if (shouldSpawn && transform.childCount < minHumans)
     {

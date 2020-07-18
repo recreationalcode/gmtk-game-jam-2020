@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
   public TextMeshProUGUI comboLabel;
   public TextMeshProUGUI highestComboLabel;
   public AudioManager audioManager;
+  public CinemachineVirtualCamera cinemachineVirtualCamera;
 
   private CircleCollider2D circleCollider;
   private CinemachineImpulseSource cinemachineImpulseSource;
@@ -46,11 +47,14 @@ public class PlayerController : MonoBehaviour
   private int combo = 0;
   private int highestCombo = 0;
 
+  private float originalOrthographicSize;
+
   void Start()
   {
     coldBloodManager = GetComponent<ColdBloodManager>();
     circleCollider = GetComponent<CircleCollider2D>();
     cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+    originalOrthographicSize = cinemachineVirtualCamera.m_Lens.OrthographicSize;
   }
 
   void Update()
@@ -72,6 +76,11 @@ public class PlayerController : MonoBehaviour
 
       attackCoroutine = StartCoroutine(Attack(currentTarget.GetPosition()));
     }
+  }
+
+  void LateUpdate()
+  {
+    cinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(cinemachineVirtualCamera.m_Lens.OrthographicSize, originalOrthographicSize + combo, Time.deltaTime);
   }
 
   void FixedUpdate()

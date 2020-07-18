@@ -45,12 +45,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startMinHumans: 5
   startMaxHumans: 10
+  levelMaxHumans: 40
   timeBetweenNormalHumanSpawns: 5
   humanMaxMoveRadius: 15
-  difficultyCurve: 0.2
-  spawnAreaBottomLeft: {x: -40, y: -40, z: 0}
-  spawnAreaTopRight: {x: 40, y: 40, z: 0}
+  difficultyCurve: 0.1
+  spawnAreaBottomLeft: {x: -35, y: -35, z: 0}
+  spawnAreaTopRight: {x: 35, y: 35, z: 0}
   obstacleTilemap: {fileID: 0}
   audioManager: {fileID: 0}
+  camera: {fileID: 0}
   humanPrefab: {fileID: 2263033625350407960, guid: 081a3e5d180774e44bc321b293b9258b,
     type: 3}
