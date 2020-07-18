@@ -69,17 +69,35 @@ public class HumanManager : MonoBehaviour
       0f);
   }
 
-  bool IsSpawnPositionisible(Vector3 spawnPosition)
+  bool IsSpawnPositionVisible(Vector3 spawnPosition)
   {
     Vector3 viewportPosition = camera.WorldToViewportPoint(spawnPosition);
     return viewportPosition.x >= 0 && viewportPosition.x < 1 && viewportPosition.y >= 0 && viewportPosition.y < 1;
+  }
+
+
+  bool IsSpawnPositionBlocked(Vector3 spawnPosition)
+  {
+    if (!obstacleTilemap.HasTile(obstacleTilemap.WorldToCell(spawnPosition)))
+    {
+      CircleCollider2D circleCollider = humanPrefab.GetComponent<CircleCollider2D>();
+
+      Collider2D collider = Physics2D.OverlapCircle(
+        spawnPosition,
+        circleCollider.radius,
+        LayerMask.GetMask("Obstacles"));
+
+      return collider == null;
+    };
+
+    return true;
   }
 
   bool SpawnHuman()
   {
     Vector3 spawnPosition = GetRandom2DPositionInArea(spawnAreaBottomLeft, spawnAreaTopRight);
 
-    if (obstacleTilemap.HasTile(obstacleTilemap.WorldToCell(spawnPosition)) || IsSpawnPositionisible(spawnPosition)) return false;
+    if (IsSpawnPositionBlocked(spawnPosition) || IsSpawnPositionVisible(spawnPosition)) return false;
 
     Vector3 targetPosition = GetRandom2DPositionInArea(
       new Vector3(Mathf.Max(spawnPosition.x - humanMaxMoveRadius, spawnAreaBottomLeft.x), Mathf.Max(spawnPosition.y - humanMaxMoveRadius, spawnAreaBottomLeft.y)),
