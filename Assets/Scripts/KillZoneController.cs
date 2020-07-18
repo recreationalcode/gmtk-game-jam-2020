@@ -4,13 +4,6 @@ public class KillZoneController : MonoBehaviour
 {
   public PlayerController playerController;
 
-  private PolygonCollider2D polygonCollider;
-
-  void Start()
-  {
-    polygonCollider = GetComponent<PolygonCollider2D>();
-  }
-
   void OnTriggerEnter2D(Collider2D other)
   {
     RaycastHit2D hit = Physics2D.Linecast(transform.position, other.transform.position);

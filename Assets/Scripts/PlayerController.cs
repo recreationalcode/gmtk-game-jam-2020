@@ -8,7 +8,6 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
   public float moveSpeed = 5f;
-  public float minimumMoveSpeed = 1f;
   public float killMoveSpeed = 15f;
   public float timeBetweenQuips = 5f;
   public float timeDisabledAfterKill = 0.5f;
@@ -87,15 +86,13 @@ public class PlayerController : MonoBehaviour
   {
     if (shouldMove && (movement.x != 0.0f || movement.y != 0.0f))
     {
-
       PlayMovingSound();
 
       playerAnimator.SetBool("isMoving", true);
 
       RotateTowards(transform.position + new Vector3(movement.x, movement.y, 0));
 
-      float finalMoveSpeed = Mathf.Max(minimumMoveSpeed, moveSpeed * coldBloodManager.GetColdBloodPercentage());
-      rigidBody.MovePosition(rigidBody.position + (movement * finalMoveSpeed * Time.fixedDeltaTime));
+      rigidBody.MovePosition(rigidBody.position + (movement * moveSpeed * Time.fixedDeltaTime));
     }
     else
     {
