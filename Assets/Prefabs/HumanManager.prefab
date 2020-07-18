@@ -43,12 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed568fab47ac84dc599919915e606861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startMinHumans: 8
-  startMaxHumans: 20
-  timeBetweenNormalHumanSpawns: 2.5
+  startMinHumans: 5
+  startMaxHumans: 10
+  timeBetweenNormalHumanSpawns: 5
   humanMaxMoveRadius: 15
   difficultyCurve: 0.2
   spawnAreaBottomLeft: {x: -40, y: -40, z: 0}
   spawnAreaTopRight: {x: 40, y: 40, z: 0}
+  obstacleTilemap: {fileID: 0}
+  audioManager: {fileID: 0}
   humanPrefab: {fileID: 2263033625350407960, guid: 081a3e5d180774e44bc321b293b9258b,
     type: 3}

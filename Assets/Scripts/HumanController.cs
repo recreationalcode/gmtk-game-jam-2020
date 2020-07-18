@@ -21,6 +21,7 @@ public class HumanController : MonoBehaviour
   private Vector3 futureTarget;
   private Coroutine moveCoroutine;
   private Coroutine zombieDetectionCoroutine;
+  private Transform zombie;
 
   void Start()
   {
@@ -31,29 +32,66 @@ public class HumanController : MonoBehaviour
   {
     if (shouldMove && !isMoving && currentTarget != null)
     {
-      isMoving = true;
+      if (moveCoroutine != null)
+      {
+        StopCoroutine(moveCoroutine);
+      }
+
       moveCoroutine = StartCoroutine(MoveToTarget());
     }
 
-    if (zombieDetectionCoroutine == null)
+    if (zombie != null && !CanSeeZombie(zombie))
     {
-      RaycastHit2D hit = Physics2D.Raycast(
+      HandleZombieUndetection();
+    }
+  }
+
+  bool CanSeeZombie(Transform zombie)
+  {
+    RaycastHit2D hit = Physics2D.Linecast(
         transform.position,
-        Quaternion.Euler(0, 0, Random.Range(-zombieDetectionMaxAngle, zombieDetectionMaxAngle)) * transform.up,
-        zombieDetectionDistance,
+        zombie.position,
         LayerMask.GetMask("Default", "Obstacles", "Zombies"));
 
-      if (hit.collider != null && hit.collider.gameObject.tag.Equals("Player"))
+    return hit.collider != null && hit.collider.gameObject.tag.Equals("Player");
+  }
+
+  public void HandleZombieDetection(Transform zombie)
+  {
+    if (!this.zombie && CanSeeZombie(zombie))
+    {
+      this.zombie = zombie;
+      shouldMove = false;
+      isMoving = false;
+
+      if (moveCoroutine != null)
       {
-        shouldMove = false;
-
-        if (moveCoroutine != null)
-        {
-          StopCoroutine(moveCoroutine);
-        }
-
-        zombieDetectionCoroutine = StartCoroutine(HandleZombieDetection(hit.transform));
+        StopCoroutine(moveCoroutine);
       }
+
+      PlayAttackingSound();
+
+      zombieDetectionCoroutine = StartCoroutine(ShootZombie(zombie));
+    }
+  }
+
+
+  public void HandleZombieUndetection()
+  {
+    if (zombie)
+    {
+
+      if (zombieDetectionCoroutine != null)
+      {
+        StopCoroutine(zombieDetectionCoroutine);
+      }
+
+      PlayUndetectionSound();
+
+      moveCoroutine = StartCoroutine(MoveToTarget());
+
+      shouldMove = true;
+      zombie = null;
     }
   }
 
@@ -81,6 +119,11 @@ public class HumanController : MonoBehaviour
     audioManager.Play(attackingSounds[Random.Range(0, attackingSounds.Length)]);
   }
 
+  void PlayUndetectionSound()
+  {
+
+  }
+
   void OnDestroy()
   {
     foreach (string sound in attackingSounds)
@@ -96,6 +139,8 @@ public class HumanController : MonoBehaviour
 
   IEnumerator MoveToTarget()
   {
+    isMoving = true;
+
     transform.up = currentTarget - transform.position;
 
     float t = 0.0f;
@@ -115,10 +160,8 @@ public class HumanController : MonoBehaviour
     isMoving = false;
   }
 
-  IEnumerator HandleZombieDetection(Transform zombie)
+  IEnumerator ShootZombie(Transform zombie)
   {
-    PlayAttackingSound();
-
     while (true)
     {
       transform.up = zombie.position - transform.position;
