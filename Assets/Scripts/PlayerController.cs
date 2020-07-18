@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
   public float moveSpeed = 5f;
   public float killMoveSpeed = 15f;
   public float timeBetweenQuips = 5f;
+  public float timeUntilComboStops = 0.5f;
   public float timeDisabledAfterKill = 0.2f;
   public float coldBloodPerKill = 20.0f;
   public float coldBloodPerProjectile = 2.0f;
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
   public GameObject humanBloodSpatterEffect;
   public TextMeshProUGUI bodyCountLabel;
   public TextMeshProUGUI highestBodyCountLabel;
+  public TextMeshProUGUI comboLabel;
   public AudioManager audioManager;
 
   private CircleCollider2D circleCollider;
@@ -36,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
   private HumanController currentTarget;
   private Coroutine attackCoroutine;
+  private Coroutine comboTimerCoroutine;
 
   private int highestBodyCount = 0;
   private int humanBodyCount = 0;
@@ -52,6 +55,7 @@ public class PlayerController : MonoBehaviour
   void Update()
   {
     bodyCountLabel.SetText(string.Format("body count: {0:0}", humanBodyCount));
+    comboLabel.SetText(string.Format("combo: {0:0}", Mathf.Max(0, combo - 1)));
     highestBodyCountLabel.SetText(string.Format("highest body count: {0:0}", highestBodyCount));
 
     if (!isGameStarted) return;
@@ -248,11 +252,20 @@ public class PlayerController : MonoBehaviour
 
       Destroy(human.gameObject);
 
+      humanBodyCount++;
+
+      if (comboTimerCoroutine != null)
+      {
+        StopCoroutine(comboTimerCoroutine);
+      }
+
+      comboTimerCoroutine = StartCoroutine(ComboTimer());
+
+      combo++;
+
       Vector3 direction = (human.gameObject.transform.position - transform.position).normalized;
 
       Instantiate(humanBloodSpatterEffect, transform.position + (1.5f * direction * circleCollider.radius), Quaternion.FromToRotation(humanBloodSpatterEffect.transform.up, direction));
-
-      humanBodyCount++;
 
       coldBloodManager.AddColdBlood(coldBloodPerKill);
 
@@ -279,10 +292,9 @@ public class PlayerController : MonoBehaviour
 
     Vector3 directionTowardsTarget = target - transform.position;
 
-    RaycastHit2D hit = Physics2D.BoxCast(
+    RaycastHit2D hit = Physics2D.CircleCast(
       currentPosition,
-      new Vector2(circleCollider.radius * 2, circleCollider.radius * 2),
-      Mathf.Atan2(directionTowardsTarget.y, directionTowardsTarget.x) * Mathf.Rad2Deg,
+      circleCollider.radius * 1.2f,
       directionTowardsTarget.normalized);
 
     if (hit.collider != null)
@@ -322,5 +334,12 @@ public class PlayerController : MonoBehaviour
     yield return new WaitForSeconds(timeBetweenQuips);
 
     shouldTalk = true;
+  }
+
+  IEnumerator ComboTimer()
+  {
+    yield return new WaitForSeconds(timeUntilComboStops);
+
+    combo = 0;
   }
 }

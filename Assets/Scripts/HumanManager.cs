@@ -15,7 +15,7 @@ public class HumanManager : MonoBehaviour
   public Vector3 spawnAreaTopRight = new Vector3(20f, 20f);
   public Tilemap obstacleTilemap;
   public AudioManager audioManager;
-  public Camera camera;
+  public new Camera camera;
 
   private int minHumans;
   private int maxHumans;
