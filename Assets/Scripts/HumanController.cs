@@ -162,16 +162,19 @@ public class HumanController : MonoBehaviour
 
   IEnumerator ShootZombie(Transform zombie)
   {
+    transform.up = zombie.position - transform.position;
+
     while (true)
     {
+
+      yield return new WaitForSeconds(timeBetweenProjectiles);
+      yield return new WaitForFixedUpdate();
+
       transform.up = zombie.position - transform.position;
 
       GameObject projectile = Instantiate(projectilePrefab, transform.position + transform.up, transform.rotation);
       Rigidbody2D projectileRigidbody = projectile.GetComponent<Rigidbody2D>();
       projectileRigidbody.AddForce(transform.up * projectileForce, ForceMode2D.Impulse);
-
-      yield return new WaitForSeconds(timeBetweenProjectiles);
-      yield return new WaitForFixedUpdate();
     }
   }
 }

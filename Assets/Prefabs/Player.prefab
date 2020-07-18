@@ -75,7 +75,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 8
+  m_LinearDrag: 15
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   killMoveSpeed: 50
-  timeBetweenQuips: 5
-  timeDisabledAfterKill: 0.5
+  timeBetweenQuips: 8
+  timeDisabledAfterKill: 0.2
   coldBloodPerKill: 20
   coldBloodPerProjectile: 5
   idleSounds:
@@ -237,7 +237,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 8
+  m_Radius: 10
 --- !u!1001 &256980374425277728
 PrefabInstance:
   m_ObjectHideFlags: 0

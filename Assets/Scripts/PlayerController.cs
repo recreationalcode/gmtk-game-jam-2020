@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
   public float moveSpeed = 5f;
   public float killMoveSpeed = 15f;
   public float timeBetweenQuips = 5f;
-  public float timeDisabledAfterKill = 0.5f;
+  public float timeDisabledAfterKill = 0.2f;
   public float coldBloodPerKill = 20.0f;
   public float coldBloodPerProjectile = 2.0f;
 
@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour
   private bool isGameStarted = false;
   private Vector2 movement;
 
-  private LinkedList<HumanController> targets;
   private HumanController currentTarget;
   private Coroutine attackCoroutine;
 
@@ -48,7 +47,6 @@ public class PlayerController : MonoBehaviour
     coldBloodManager = GetComponent<ColdBloodManager>();
     circleCollider = GetComponent<CircleCollider2D>();
     cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
-    targets = new LinkedList<HumanController>();
   }
 
   void Update()
@@ -61,24 +59,12 @@ public class PlayerController : MonoBehaviour
     movement.x = Input.GetAxisRaw("Horizontal");
     movement.y = Input.GetAxisRaw("Vertical");
 
-    if (shouldMove && targets.Count > 0)
+    if (shouldMove && currentTarget != null)
     {
-      currentTarget = targets.Last.Value;
-      targets.RemoveLast();
+      shouldMove = false;
+      playerAnimator.SetBool("isMoving", false);
 
-      if (currentTarget != null)
-      {
-
-        shouldMove = false;
-        playerAnimator.SetBool("isAttacking", true);
-        playerAnimator.SetBool("isMoving", false);
-
-        attackCoroutine = StartCoroutine(Attack(currentTarget.GetPosition()));
-      }
-      else
-      {
-        shouldMove = true;
-      }
+      attackCoroutine = StartCoroutine(Attack(currentTarget.GetPosition()));
     }
   }
 
@@ -230,9 +216,17 @@ public class PlayerController : MonoBehaviour
 
   public void Kill(HumanController human)
   {
-    if (currentTarget != human && !targets.Contains(human))
+    if (currentTarget == null)
     {
-      targets.AddLast(human);
+      currentTarget = human;
+    }
+  }
+
+  public void Forget(HumanController human)
+  {
+    if (currentTarget == human)
+    {
+      currentTarget = null;
     }
   }
 
@@ -252,27 +246,15 @@ public class PlayerController : MonoBehaviour
         currentTarget = null;
       }
 
-      targets.Remove(human);
-
       Destroy(human.gameObject);
 
       Vector3 direction = (human.gameObject.transform.position - transform.position).normalized;
 
       Instantiate(humanBloodSpatterEffect, transform.position + (1.5f * direction * circleCollider.radius), Quaternion.FromToRotation(humanBloodSpatterEffect.transform.up, direction));
 
-
       humanBodyCount++;
 
       coldBloodManager.AddColdBlood(coldBloodPerKill);
-
-      if (attackCoroutine != null)
-      {
-        StopCoroutine(attackCoroutine);
-      }
-
-      playerAnimator.SetBool("isAttacking", false);
-
-      shouldMove = true;
 
       return;
     }
@@ -309,6 +291,7 @@ public class PlayerController : MonoBehaviour
       // Humans or Projectiles
       if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9)
       {
+        playerAnimator.SetBool("isAttacking", true);
 
         RotateTowards(target);
 
@@ -317,19 +300,19 @@ public class PlayerController : MonoBehaviour
 
         PlayAttackingSound();
 
-        while (t < timeToTarget)
+        while (t < timeToTarget && currentTarget != null)
         {
           t += Time.deltaTime;
 
           rigidBody.MovePosition(Vector3.Lerp(currentPosition, target, t / timeToTarget));
           yield return new WaitForFixedUpdate();
         }
+        playerAnimator.SetBool("isAttacking", false);
 
         yield return new WaitForSeconds(timeDisabledAfterKill);
       }
     }
 
-    playerAnimator.SetBool("isAttacking", false);
 
     shouldMove = true;
   }
