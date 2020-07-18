@@ -15,6 +15,7 @@ public class HumanManager : MonoBehaviour
   public Vector3 spawnAreaTopRight = new Vector3(20f, 20f);
   public Tilemap obstacleTilemap;
   public AudioManager audioManager;
+  public Camera camera;
 
   private int minHumans;
   private int maxHumans;
@@ -68,11 +69,17 @@ public class HumanManager : MonoBehaviour
       0f);
   }
 
+  bool IsSpawnPositionisible(Vector3 spawnPosition)
+  {
+    Vector3 viewportPosition = camera.WorldToViewportPoint(spawnPosition);
+    return viewportPosition.x >= 0 && viewportPosition.x < 1 && viewportPosition.y >= 0 && viewportPosition.y < 1;
+  }
+
   bool SpawnHuman()
   {
     Vector3 spawnPosition = GetRandom2DPositionInArea(spawnAreaBottomLeft, spawnAreaTopRight);
 
-    if (obstacleTilemap.HasTile(obstacleTilemap.WorldToCell(spawnPosition))) return false;
+    if (obstacleTilemap.HasTile(obstacleTilemap.WorldToCell(spawnPosition)) || IsSpawnPositionisible(spawnPosition)) return false;
 
     Vector3 targetPosition = GetRandom2DPositionInArea(
       new Vector3(Mathf.Max(spawnPosition.x - humanMaxMoveRadius, spawnAreaBottomLeft.x), Mathf.Max(spawnPosition.y - humanMaxMoveRadius, spawnAreaBottomLeft.y)),

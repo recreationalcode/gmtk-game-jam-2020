@@ -7099,8 +7099,8 @@ PrefabInstance:
       objectReference: {fileID: 143112899}
     - target: {fileID: 5440082405852613275, guid: 9262974db09f84aee81b0fe488fc7872,
         type: 3}
-      propertyPath: difficultyCurve
-      value: 0.4
-      objectReference: {fileID: 0}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 519420031}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9262974db09f84aee81b0fe488fc7872, type: 3}

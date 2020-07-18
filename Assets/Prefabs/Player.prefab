@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  killMoveSpeed: 20
+  killMoveSpeed: 50
   timeBetweenQuips: 5
   timeDisabledAfterKill: 0.5
   coldBloodPerKill: 20
