@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
   public TextMeshProUGUI bodyCountLabel;
   public TextMeshProUGUI highestBodyCountLabel;
   public TextMeshProUGUI comboLabel;
+  public TextMeshProUGUI highestComboLabel;
   public AudioManager audioManager;
 
   private CircleCollider2D circleCollider;
@@ -55,8 +56,9 @@ public class PlayerController : MonoBehaviour
   void Update()
   {
     bodyCountLabel.SetText(string.Format("body count: {0:0}", humanBodyCount));
-    comboLabel.SetText(string.Format("combo: {0:0}", Mathf.Max(0, combo - 1)));
+    comboLabel.SetText(string.Format("combo: {0:0}", combo));
     highestBodyCountLabel.SetText(string.Format("highest body count: {0:0}", highestBodyCount));
+    highestComboLabel.SetText(string.Format("highest combo: {0:0}", highestCombo));
 
     if (!isGameStarted) return;
 
@@ -95,6 +97,7 @@ public class PlayerController : MonoBehaviour
   public void StartPlaying()
   {
     highestBodyCountLabel.enabled = false;
+    highestComboLabel.enabled = false;
 
     humanBodyCount = 0;
 
@@ -118,6 +121,7 @@ public class PlayerController : MonoBehaviour
     playerAnimator.SetBool("isAttacking", false);
 
     highestBodyCountLabel.enabled = true;
+    highestComboLabel.enabled = true;
   }
 
   void PlayIdleSound()
@@ -263,6 +267,11 @@ public class PlayerController : MonoBehaviour
 
       combo++;
 
+      if (combo > highestCombo)
+      {
+        highestCombo = combo;
+      }
+
       Vector3 direction = (human.gameObject.transform.position - transform.position).normalized;
 
       Instantiate(humanBloodSpatterEffect, transform.position + (1.5f * direction * circleCollider.radius), Quaternion.FromToRotation(humanBloodSpatterEffect.transform.up, direction));
@@ -286,43 +295,53 @@ public class PlayerController : MonoBehaviour
     }
   }
 
+  bool CanAttack(Vector3 currentPosition, Vector3 target)
+  {
+    RaycastHit2D hit = Physics2D.Linecast(currentPosition, target, LayerMask.GetMask("Obstacles"));
+
+    if (hit.collider == null)
+    {
+
+      Vector3 directionTowardsTarget = target - currentPosition;
+
+      hit = Physics2D.CircleCast(
+        currentPosition,
+        circleCollider.radius,
+        directionTowardsTarget.normalized,
+        directionTowardsTarget.magnitude,
+        LayerMask.GetMask("Obstacles"));
+
+      return hit.collider == null;
+    }
+
+    return false;
+  }
+
   IEnumerator Attack(Vector3 target)
   {
     Vector3 currentPosition = transform.position;
 
-    Vector3 directionTowardsTarget = target - transform.position;
-
-    RaycastHit2D hit = Physics2D.CircleCast(
-      currentPosition,
-      circleCollider.radius * 1.2f,
-      directionTowardsTarget.normalized);
-
-    if (hit.collider != null)
+    if (CanAttack(currentPosition, target))
     {
+      playerAnimator.SetBool("isAttacking", true);
 
-      // Humans or Projectiles
-      if (hit.transform.gameObject.layer == 8 || hit.transform.gameObject.layer == 9)
+      RotateTowards(target);
+
+      float t = 0.0f;
+      float timeToTarget = Vector3.Distance(currentPosition, target) / killMoveSpeed;
+
+      PlayAttackingSound();
+
+      while (t < timeToTarget && currentTarget != null)
       {
-        playerAnimator.SetBool("isAttacking", true);
+        t += Time.deltaTime;
 
-        RotateTowards(target);
-
-        float t = 0.0f;
-        float timeToTarget = Vector3.Distance(currentPosition, target) / killMoveSpeed;
-
-        PlayAttackingSound();
-
-        while (t < timeToTarget && currentTarget != null)
-        {
-          t += Time.deltaTime;
-
-          rigidBody.MovePosition(Vector3.Lerp(currentPosition, target, t / timeToTarget));
-          yield return new WaitForFixedUpdate();
-        }
-        playerAnimator.SetBool("isAttacking", false);
-
-        yield return new WaitForSeconds(timeDisabledAfterKill);
+        rigidBody.MovePosition(Vector3.Lerp(currentPosition, target, t / timeToTarget));
+        yield return new WaitForFixedUpdate();
       }
+      playerAnimator.SetBool("isAttacking", false);
+
+      yield return new WaitForSeconds(timeDisabledAfterKill);
     }
 
 
