@@ -43,12 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed568fab47ac84dc599919915e606861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startMinHumans: 5
-  startMaxHumans: 10
+  startMinHumans: 7
+  startMaxHumans: 15
   levelMaxHumans: 40
   timeBetweenNormalHumanSpawns: 5
   humanMaxMoveRadius: 15
-  difficultyCurve: 0.1
+  difficultyCurve: 0.2
   spawnAreaBottomLeft: {x: -35, y: -35, z: 0}
   spawnAreaTopRight: {x: 35, y: 35, z: 0}
   obstacleTilemap: {fileID: 0}

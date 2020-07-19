@@ -41,20 +41,23 @@ public class PlayerController : MonoBehaviour
   private HumanController currentTarget;
   private Coroutine attackCoroutine;
   private Coroutine comboTimerCoroutine;
+  private Coroutine comboCameraFOVCoroutine;
 
   private int highestBodyCount = 0;
   private int humanBodyCount = 0;
+  private int cameraFOVCombo = 0;
   private int combo = 0;
   private int highestCombo = 0;
 
-  private float originalOrthographicSize;
+  private float originalFOV;
+  private float lastOrthographicSize;
 
   void Start()
   {
     coldBloodManager = GetComponent<ColdBloodManager>();
     circleCollider = GetComponent<CircleCollider2D>();
     cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
-    originalOrthographicSize = cinemachineVirtualCamera.m_Lens.OrthographicSize;
+    originalFOV = cinemachineVirtualCamera.m_Lens.OrthographicSize;
   }
 
   void Update()
@@ -76,11 +79,6 @@ public class PlayerController : MonoBehaviour
 
       attackCoroutine = StartCoroutine(Attack(currentTarget.GetPosition()));
     }
-  }
-
-  void LateUpdate()
-  {
-    cinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(cinemachineVirtualCamera.m_Lens.OrthographicSize, originalOrthographicSize + combo, Time.deltaTime);
   }
 
   void FixedUpdate()
@@ -123,11 +121,15 @@ public class PlayerController : MonoBehaviour
     {
       StopCoroutine(attackCoroutine);
     }
+
     shouldMove = true;
     isGameStarted = false;
 
     playerAnimator.SetBool("isMoving", false);
     playerAnimator.SetBool("isAttacking", false);
+
+    combo = 0;
+    cameraFOVCombo = 0;
 
     highestBodyCountLabel.enabled = true;
     highestComboLabel.enabled = true;
@@ -276,6 +278,18 @@ public class PlayerController : MonoBehaviour
 
       combo++;
 
+      if (combo > cameraFOVCombo || cinemachineVirtualCamera.m_Lens.OrthographicSize < (originalFOV + combo))
+      {
+        cameraFOVCombo = combo;
+
+        if (comboCameraFOVCoroutine != null)
+        {
+          StopCoroutine(comboCameraFOVCoroutine);
+        }
+
+        comboCameraFOVCoroutine = StartCoroutine(ComboCameraFOV(cameraFOVCombo));
+      }
+
       if (combo > highestCombo)
       {
         highestCombo = combo;
@@ -348,6 +362,7 @@ public class PlayerController : MonoBehaviour
         rigidBody.MovePosition(Vector3.Lerp(currentPosition, target, t / timeToTarget));
         yield return new WaitForFixedUpdate();
       }
+
       playerAnimator.SetBool("isAttacking", false);
 
       yield return new WaitForSeconds(timeDisabledAfterKill);
@@ -369,5 +384,38 @@ public class PlayerController : MonoBehaviour
     yield return new WaitForSeconds(timeUntilComboStops);
 
     combo = 0;
+  }
+
+  IEnumerator ComboCameraFOV(int combo)
+  {
+    yield return new WaitForEndOfFrame();
+
+    float currentFOV = cinemachineVirtualCamera.m_Lens.OrthographicSize;
+
+    float t = 0.0f;
+    float timeToTarget = 0.5f;
+
+    while (t < timeToTarget)
+    {
+      t += Time.deltaTime;
+
+      cinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(currentFOV, originalFOV + combo, t / timeToTarget);
+      yield return new WaitForEndOfFrame();
+    }
+
+    currentFOV = cinemachineVirtualCamera.m_Lens.OrthographicSize;
+
+    t = 0.0f;
+    timeToTarget = (currentFOV - originalFOV) / 2.0f;
+
+    while (t < timeToTarget)
+    {
+      t += Time.deltaTime;
+
+      cinemachineVirtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(currentFOV, originalFOV, t / timeToTarget);
+      yield return new WaitForEndOfFrame();
+    }
+
+    cameraFOVCombo = 0;
   }
 }
