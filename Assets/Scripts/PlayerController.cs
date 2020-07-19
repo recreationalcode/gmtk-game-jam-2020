@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour
     humanBodyCount = 0;
 
     isGameStarted = true;
+    shouldMove = true;
   }
 
   public void StopPlaying()

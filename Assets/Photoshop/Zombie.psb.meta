@@ -98,7 +98,7 @@ ScriptedImporter:
       y: 283
       width: 104
       height: 104
-    spriteID: 63da1e9c8f53b4812b1cfecfd221bba8
+    spriteID: f2e1eb4f119914dba81a427009386302
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -120,7 +120,7 @@ ScriptedImporter:
       y: 283
       width: 95
       height: 95
-    spriteID: 67e9b20d43ae4470b9c61dcdfe893caa
+    spriteID: 7f69513547357470d929ef3d8b206c74
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -142,7 +142,7 @@ ScriptedImporter:
       y: 4
       width: 269
       height: 271
-    spriteID: 7e23ec6a5b9d6400b8483853a676257a
+    spriteID: 17726a9dea8c24fc9bebd9f5665ea173
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -164,7 +164,7 @@ ScriptedImporter:
       y: 395
       width: 83
       height: 81
-    spriteID: 1fe8686b9cb6f4a9dbb34ac02a014075
+    spriteID: 1b63d72874b394036b78e7af98a762d3
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -186,7 +186,7 @@ ScriptedImporter:
       y: 395
       width: 77
       height: 81
-    spriteID: 0fcfc281c9b03444bb5525d48cdf240a
+    spriteID: 00dfffb5f5fab426ab842888005c521b
     internalID: 0
     spriteBone: []
     spriteOutline: []
@@ -220,36 +220,36 @@ ScriptedImporter:
     spriteName: Right Eye
     isGroup: 0
     parentIndex: -1
-    spriteID: 63da1e9c8f53b4812b1cfecfd221bba8
-    layerID: 83
+    spriteID: f2e1eb4f119914dba81a427009386302
+    layerID: 95
     mosaicPosition: {x: 4, y: 283}
   - name: Left Eye
     spriteName: Left Eye
     isGroup: 0
     parentIndex: -1
-    spriteID: 67e9b20d43ae4470b9c61dcdfe893caa
-    layerID: 84
+    spriteID: 7f69513547357470d929ef3d8b206c74
+    layerID: 94
     mosaicPosition: {x: 116, y: 283}
   - name: Head
     spriteName: Head
     isGroup: 0
     parentIndex: -1
-    spriteID: 7e23ec6a5b9d6400b8483853a676257a
-    layerID: 85
+    spriteID: 17726a9dea8c24fc9bebd9f5665ea173
+    layerID: 91
     mosaicPosition: {x: 4, y: 4}
   - name: Right Hand
     spriteName: Right Hand
     isGroup: 0
     parentIndex: -1
-    spriteID: 1fe8686b9cb6f4a9dbb34ac02a014075
-    layerID: 80
+    spriteID: 1b63d72874b394036b78e7af98a762d3
+    layerID: 92
     mosaicPosition: {x: 4, y: 395}
   - name: Left Hand
     spriteName: Left Hand
     isGroup: 0
     parentIndex: -1
-    spriteID: 0fcfc281c9b03444bb5525d48cdf240a
-    layerID: 81
+    spriteID: 00dfffb5f5fab426ab842888005c521b
+    layerID: 93
     mosaicPosition: {x: 95, y: 395}
   characterData:
     bones: []
