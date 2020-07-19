@@ -8,8 +8,6 @@ public class HumanManager : MonoBehaviour
   public int startMaxHumans = 20;
   public int levelMaxHumans = 40;
   public float timeBetweenNormalHumanSpawns = 5f;
-  public float humanMaxMoveRadius = 15f;
-
   public float difficultyCurve = 0.1f;
 
   public Vector3 spawnAreaBottomLeft = new Vector3(-20f, -20f);

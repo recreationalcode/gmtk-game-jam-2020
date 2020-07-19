@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
       StopCoroutine(attackCoroutine);
     }
 
-    shouldMove = true;
+    shouldMove = false;
     isGameStarted = false;
 
     playerAnimator.SetBool("isMoving", false);
@@ -329,7 +329,7 @@ public class PlayerController : MonoBehaviour
 
       hit = Physics2D.CircleCast(
         currentPosition,
-        circleCollider.radius,
+        circleCollider.radius * 0.5f,
         directionTowardsTarget.normalized,
         directionTowardsTarget.magnitude,
         LayerMask.GetMask("Obstacles"));
@@ -406,7 +406,7 @@ public class PlayerController : MonoBehaviour
     currentFOV = cinemachineVirtualCamera.m_Lens.OrthographicSize;
 
     t = 0.0f;
-    timeToTarget = (currentFOV - originalFOV) / 2.0f;
+    timeToTarget = (currentFOV - originalFOV) / 1.5f;
 
     while (t < timeToTarget)
     {

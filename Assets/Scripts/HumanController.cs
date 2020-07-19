@@ -91,8 +91,6 @@ public class HumanController : MonoBehaviour
         StopCoroutine(zombieDetectionCoroutine);
       }
 
-      PlayUndetectionSound();
-
       shouldMove = true;
       zombie = null;
     }
@@ -115,11 +113,6 @@ public class HumanController : MonoBehaviour
     }
 
     audioManager.Play(attackingSounds[Random.Range(0, attackingSounds.Length)]);
-  }
-
-  void PlayUndetectionSound()
-  {
-
   }
 
   void OnDestroy()
