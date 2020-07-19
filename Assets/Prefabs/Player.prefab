@@ -98,6 +98,7 @@ MonoBehaviour:
   moveSpeed: 10
   killMoveSpeed: 50
   timeBetweenQuips: 8
+  timeUntilComboStops: 0.5
   timeDisabledAfterKill: 0.2
   coldBloodPerKill: 20
   coldBloodPerProjectile: 5
@@ -119,7 +120,10 @@ MonoBehaviour:
     type: 3}
   bodyCountLabel: {fileID: 0}
   highestBodyCountLabel: {fileID: 0}
+  comboLabel: {fileID: 0}
+  highestComboLabel: {fileID: 0}
   audioManager: {fileID: 0}
+  cinemachineVirtualCamera: {fileID: 0}
 --- !u!114 &4287035276311123191
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,11 +3,10 @@ using System.Collections;
 
 public class HumanController : MonoBehaviour
 {
-  public float moveSpeed = 1f;
+  public float moveSpeed = 20f;
+  public float timeBetweenMovements = 1f;
+  public float timeBetweenTurns = 5f;
   public Rigidbody2D rigidBody;
-  public Vector3 target;
-  public float zombieDetectionDistance = 5f;
-  public float zombieDetectionMaxAngle = 5f;
   public float projectileForce = 1f;
   public float timeBetweenProjectiles = 1.0f;
   public GameObject projectilePrefab;
@@ -16,33 +15,39 @@ public class HumanController : MonoBehaviour
 
 
   private bool shouldMove = true;
-  private bool isMoving = false;
-  private Vector3 currentTarget;
-  private Vector3 futureTarget;
-  private Coroutine moveCoroutine;
+  private float timeSinceLastTurn = 0.0f;
+  private Coroutine waitToMoveCoroutine;
   private Coroutine zombieDetectionCoroutine;
   private Transform zombie;
 
   void Start()
   {
-    futureTarget = transform.position;
+    transform.up = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
   }
 
   void Update()
   {
-    if (shouldMove && !isMoving && currentTarget != null)
-    {
-      if (moveCoroutine != null)
-      {
-        StopCoroutine(moveCoroutine);
-      }
-
-      moveCoroutine = StartCoroutine(MoveToTarget());
-    }
-
     if (zombie != null && !CanSeeZombie(zombie))
     {
       HandleZombieUndetection();
+    }
+
+    if (timeSinceLastTurn >= timeBetweenTurns && !this.zombie)
+    {
+      timeSinceLastTurn = 0.0f;
+      transform.up = Quaternion.Euler(0, 0, Random.Range(90f, 270f)) * transform.up;
+    }
+    else
+    {
+      timeSinceLastTurn += Time.deltaTime;
+    }
+  }
+
+  void FixedUpdate()
+  {
+    if (shouldMove == true)
+    {
+      rigidBody.MovePosition(Vector3.Lerp(transform.position, transform.position + transform.up, Time.fixedDeltaTime * moveSpeed));
     }
   }
 
@@ -61,13 +66,13 @@ public class HumanController : MonoBehaviour
     if (!this.zombie && CanSeeZombie(zombie))
     {
       this.zombie = zombie;
-      shouldMove = false;
-      isMoving = false;
 
-      if (moveCoroutine != null)
+      if (waitToMoveCoroutine != null)
       {
-        StopCoroutine(moveCoroutine);
+        StopCoroutine(waitToMoveCoroutine);
       }
+
+      shouldMove = false;
 
       PlayAttackingSound();
 
@@ -88,18 +93,11 @@ public class HumanController : MonoBehaviour
 
       PlayUndetectionSound();
 
-      moveCoroutine = StartCoroutine(MoveToTarget());
-
       shouldMove = true;
       zombie = null;
     }
   }
 
-  public void SetTarget(Vector3 target)
-  {
-    this.target = target;
-    this.currentTarget = target;
-  }
 
   public void SetAudioManager(AudioManager audioManager)
   {
@@ -137,27 +135,21 @@ public class HumanController : MonoBehaviour
     return transform.position;
   }
 
-  IEnumerator MoveToTarget()
+  void OnCollisionEnter2D(Collision2D other)
   {
-    isMoving = true;
+    shouldMove = false;
 
-    transform.up = currentTarget - transform.position;
+    timeSinceLastTurn = 0.0f;
+    transform.up = Quaternion.Euler(0, 0, Random.Range(90f, 270f)) * transform.up;
 
-    float t = 0.0f;
-    float timeToTarget = Vector3.Distance(transform.position, currentTarget) / moveSpeed;
+    waitToMoveCoroutine = StartCoroutine(WaitToMove());
+  }
 
-    while (t < timeToTarget)
-    {
-      t += Time.deltaTime;
-      rigidBody.MovePosition(Vector3.Lerp(futureTarget, currentTarget, t / timeToTarget));
-      yield return new WaitForFixedUpdate();
-    }
+  IEnumerator WaitToMove()
+  {
+    yield return new WaitForSeconds(timeBetweenMovements);
 
-    Vector3 target = currentTarget;
-    currentTarget = futureTarget;
-    futureTarget = target;
-
-    isMoving = false;
+    shouldMove = true;
   }
 
   IEnumerator ShootZombie(Transform zombie)

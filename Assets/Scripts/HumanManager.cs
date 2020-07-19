@@ -100,39 +100,16 @@ public class HumanManager : MonoBehaviour
 
     if (IsSpawnPositionBlocked(spawnPosition) || IsSpawnPositionVisible(spawnPosition)) return false;
 
-    Vector3 targetPosition = GetRandom2DPositionInArea(
-      new Vector3(Mathf.Max(spawnPosition.x - humanMaxMoveRadius, spawnAreaBottomLeft.x), Mathf.Max(spawnPosition.y - humanMaxMoveRadius, spawnAreaBottomLeft.y)),
-      new Vector3(Mathf.Min(spawnPosition.x + humanMaxMoveRadius, spawnAreaTopRight.x), Mathf.Max(spawnPosition.y + humanMaxMoveRadius, spawnAreaTopRight.y))
-    );
+    GameObject human = Instantiate(humanPrefab, spawnPosition, Quaternion.identity);
 
-    CircleCollider2D circleCollider = humanPrefab.GetComponent<CircleCollider2D>();
+    human.transform.parent = gameObject.transform;
 
-    Vector3 directionTowardsTarget = targetPosition - spawnPosition;
+    HumanController humanController = human.GetComponent<HumanController>();
 
-    RaycastHit2D hit = Physics2D.BoxCast(
-      spawnPosition,
-      new Vector2(circleCollider.radius * 2, circleCollider.radius * 2),
-      Mathf.Atan2(directionTowardsTarget.y, directionTowardsTarget.x) * Mathf.Rad2Deg,
-      directionTowardsTarget.normalized);
+    humanController.SetAudioManager(audioManager);
+    humanController.timeBetweenProjectiles = humanController.timeBetweenProjectiles - Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve) / 100;
 
-    if (hit.collider != null && hit.transform.gameObject.layer != LayerMask.NameToLayer("Obstacles"))
-    {
-      GameObject human = Instantiate(humanPrefab, spawnPosition, Quaternion.identity);
-
-      human.transform.parent = gameObject.transform;
-
-      HumanController humanController = human.GetComponent<HumanController>();
-
-      humanController.SetTarget(targetPosition);
-      humanController.SetAudioManager(audioManager);
-      humanController.timeBetweenProjectiles = humanController.timeBetweenProjectiles - Mathf.RoundToInt(playerController.GetBodyCount() * difficultyCurve) / 100;
-
-      return true;
-    }
-    else
-    {
-      return false;
-    }
+    return true;
   }
 
   IEnumerator SpawnHumans()

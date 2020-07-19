@@ -1031,6 +1031,11 @@ PrefabInstance:
       propertyPath: highestComboLabel
       value: 
       objectReference: {fileID: 78501890}
+    - target: {fileID: 5075623389734257910, guid: 3510a3b91ffe6411dad169161cc9b02f,
+        type: 3}
+      propertyPath: cinemachineVirtualCamera
+      value: 
+      objectReference: {fileID: 937873042}
     - target: {fileID: 5075623389734257911, guid: 3510a3b91ffe6411dad169161cc9b02f,
         type: 3}
       propertyPath: m_RootOrder
@@ -1109,7 +1114,7 @@ MonoBehaviour:
   m_LookaheadIgnoreY: 0
   m_XDamping: 1
   m_YDamping: 1
-  m_ZDamping: 1
+  m_ZDamping: 0
   m_TargetMovementOnly: 0
   m_ScreenX: 0.5
   m_ScreenY: 0.5
@@ -7353,41 +7358,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5440082405852613272, guid: 9262974db09f84aee81b0fe488fc7872,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613272, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613272, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613272, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613272, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613272, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613272, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613272, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
@@ -7426,25 +7396,5 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 5440082405852613275, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: spawnAreaBottomLeft.x
-      value: -35
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613275, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: spawnAreaBottomLeft.y
-      value: -35
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613275, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: spawnAreaTopRight.x
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 5440082405852613275, guid: 9262974db09f84aee81b0fe488fc7872,
-        type: 3}
-      propertyPath: spawnAreaTopRight.y
-      value: 35
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9262974db09f84aee81b0fe488fc7872, type: 3}

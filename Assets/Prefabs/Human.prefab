@@ -57,7 +57,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
   m_Mass: 4.9087386
-  m_LinearDrag: 15
+  m_LinearDrag: 10
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -93,9 +93,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c929c018065ec48dcb6ed89948e11a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 7
+  timeBetweenMovements: 1
+  timeBetweenTurns: 5
   rigidBody: {fileID: 2263033625350407966}
-  target: {x: 0, y: 0, z: 0}
   zombieDetectionDistance: 30
   zombieDetectionMaxAngle: 5
   projectileForce: 90
