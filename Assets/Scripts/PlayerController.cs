@@ -358,7 +358,7 @@ public class PlayerController : MonoBehaviour
 
       while (t < timeToTarget && currentTarget != null)
       {
-        t += Time.deltaTime;
+        t += Time.fixedDeltaTime;
 
         rigidBody.MovePosition(Vector3.Lerp(currentPosition, target, t / timeToTarget));
         yield return new WaitForFixedUpdate();

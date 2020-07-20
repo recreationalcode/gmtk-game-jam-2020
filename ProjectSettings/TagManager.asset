@@ -44,6 +44,9 @@ TagManager:
   - name: Particles
     uniqueID: 2885154745
     locked: 0
-  - name: Characters
+  - name: Humans
     uniqueID: 397469203
+    locked: 0
+  - name: Zombies
+    uniqueID: 3686318497
     locked: 0

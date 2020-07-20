@@ -36,6 +36,13 @@ public class HumanController : MonoBehaviour
     {
       timeSinceLastTurn = 0.0f;
       transform.up = Quaternion.Euler(0, 0, Random.Range(90f, 270f)) * transform.up;
+
+      if (waitToMoveCoroutine != null)
+      {
+        StopCoroutine(waitToMoveCoroutine);
+      }
+
+      waitToMoveCoroutine = StartCoroutine(WaitToMove());
     }
     else
     {
@@ -133,33 +140,57 @@ public class HumanController : MonoBehaviour
     shouldMove = false;
 
     timeSinceLastTurn = 0.0f;
-    transform.up = Quaternion.Euler(0, 0, Random.Range(90f, 270f)) * transform.up;
+
+    if (waitToMoveCoroutine != null)
+    {
+      StopCoroutine(waitToMoveCoroutine);
+    }
 
     waitToMoveCoroutine = StartCoroutine(WaitToMove());
   }
 
   IEnumerator WaitToMove()
   {
-    yield return new WaitForSeconds(timeBetweenMovements);
+    GetPosition
 
-    shouldMove = true;
+        shouldMove = true;
   }
 
   IEnumerator ShootZombie(Transform zombie)
   {
-    transform.up = zombie.position - transform.position;
+
+    Vector3 currentUp = transform.up;
+    Vector3 newUp = zombie.position - transform.position; ;
+
+    float t = 0.0f;
+
+    while (t < timeBetweenMovements)
+    {
+      t += Time.fixedDeltaTime;
+      transform.up = Vector3.Lerp(currentUp, newUp, t / timeBetweenMovements);
+
+
+      yield return new WaitForFixedUpdate();
+    }
 
     while (true)
     {
-
-      yield return new WaitForSeconds(timeBetweenProjectiles);
-      yield return new WaitForFixedUpdate();
-
       transform.up = zombie.position - transform.position;
 
       GameObject projectile = Instantiate(projectilePrefab, transform.position + transform.up, transform.rotation);
       Rigidbody2D projectileRigidbody = projectile.GetComponent<Rigidbody2D>();
       projectileRigidbody.AddForce(transform.up * projectileForce, ForceMode2D.Impulse);
+
+      float t = 0.0f;
+
+      while (t < timeBetweenProjectiles)
+      {
+        t += Time.fixedDeltaTime;
+        transform.up = Vector3.Lerp(currentUp, newUp, t / timeBetweenProjectiles);
+
+
+        yield return new WaitForFixedUpdate();
+      }
     }
   }
 }
