@@ -151,9 +151,21 @@ public class HumanController : MonoBehaviour
 
   IEnumerator WaitToMove()
   {
-    GetPosition
+    Vector3 currentUp = transform.up;
+    Vector3 newUp = Quaternion.Euler(0, 0, Random.Range(90f, 270f)) * currentUp;
 
-        shouldMove = true;
+    float t = 0.0f;
+
+    while (t < timeBetweenMovements)
+    {
+      t += Time.fixedDeltaTime;
+      transform.up = Vector3.Lerp(currentUp, newUp, t / timeBetweenMovements);
+
+
+      yield return new WaitForFixedUpdate();
+    }
+
+    shouldMove = true;
   }
 
   IEnumerator ShootZombie(Transform zombie)
@@ -175,13 +187,14 @@ public class HumanController : MonoBehaviour
 
     while (true)
     {
-      transform.up = zombie.position - transform.position;
-
       GameObject projectile = Instantiate(projectilePrefab, transform.position + transform.up, transform.rotation);
       Rigidbody2D projectileRigidbody = projectile.GetComponent<Rigidbody2D>();
       projectileRigidbody.AddForce(transform.up * projectileForce, ForceMode2D.Impulse);
 
-      float t = 0.0f;
+      currentUp = transform.up;
+      newUp = zombie.position - transform.position;
+
+      t = 0.0f;
 
       while (t < timeBetweenProjectiles)
       {
