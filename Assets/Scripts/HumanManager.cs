@@ -105,7 +105,7 @@ public class HumanManager : MonoBehaviour
     HumanController humanController = human.GetComponent<HumanController>();
 
     humanController.SetAudioManager(audioManager);
-    humanController.timeBetweenProjectiles = humanController.timeBetweenProjectiles - (playerController.GetBodyCount() / 100.0f * difficultyCurve * 2.0f);
+    humanController.timeBetweenProjectiles = Mathf.Max(humanController.timeBetweenProjectiles - (playerController.GetBodyCount() / 100.0f * difficultyCurve), 0.1f);
 
     return true;
   }

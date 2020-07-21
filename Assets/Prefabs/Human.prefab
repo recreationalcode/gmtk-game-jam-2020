@@ -99,7 +99,7 @@ MonoBehaviour:
   timeBetweenMovements: 1
   timeBetweenTurns: 5
   rigidBody: {fileID: 2263033625350407966}
-  projectileForce: 90
+  projectileForce: 150
   timeBetweenProjectiles: 0.8
   projectilePrefab: {fileID: 5906474646105102521, guid: f277fd61160aa4244a79055cac8c80cc,
     type: 3}

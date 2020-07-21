@@ -309,7 +309,7 @@ public class PlayerController : MonoBehaviour
 
       Instantiate(humanBloodSpatterEffect, transform.position + (1.5f * direction * circleCollider.radius), Quaternion.FromToRotation(humanBloodSpatterEffect.transform.up, direction));
 
-      coldBloodManager.AddColdBlood(coldBloodPerKill);
+      coldBloodManager.AddColdBlood(coldBloodPerKill - Mathf.Min(humanBodyCount / 20.0f, 10.0f));
 
       return;
     }
@@ -318,7 +318,7 @@ public class PlayerController : MonoBehaviour
 
     if (projectile != null)
     {
-      coldBloodManager.RemoveColdBlood(coldBloodPerProjectile);
+      coldBloodManager.RemoveColdBlood(coldBloodPerProjectile + Mathf.Min(humanBodyCount / 25.0f, 5.0f));
 
       cinemachineImpulseSource.GenerateImpulse(-transform.forward);
 
