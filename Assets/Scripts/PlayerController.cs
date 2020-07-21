@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
   public Animator playerAnimator;
   public GameObject zombieBloodSpatterEffect;
   public GameObject humanBloodSpatterEffect;
+  public TextMeshProUGUI coldBloodLabel;
   public TextMeshProUGUI bodyCountLabel;
   public TextMeshProUGUI highestBodyCountLabel;
   public TextMeshProUGUI comboLabel;
@@ -106,6 +107,10 @@ public class PlayerController : MonoBehaviour
     highestBodyCountLabel.enabled = false;
     highestComboLabel.enabled = false;
 
+    coldBloodLabel.enabled = true;
+    bodyCountLabel.enabled = true;
+    comboLabel.enabled = true;
+
     humanBodyCount = 0;
 
     isGameStarted = true;
@@ -131,6 +136,10 @@ public class PlayerController : MonoBehaviour
 
     combo = 0;
     cameraFOVCombo = 0;
+
+    coldBloodLabel.enabled = false;
+    bodyCountLabel.enabled = false;
+    comboLabel.enabled = false;
 
     highestBodyCountLabel.enabled = true;
     highestComboLabel.enabled = true;

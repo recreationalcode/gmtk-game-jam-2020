@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class GameController : MonoBehaviour
   public HumanManager humanManager;
   public PlayerController playerController;
   public GameObject playButton;
+  public TextMeshProUGUI titleText;
 
   public bool isGameStarted = false;
 
@@ -18,6 +20,7 @@ public class GameController : MonoBehaviour
   public void StartGame()
   {
     playButton.SetActive(false);
+    titleText.enabled = false;
 
     isGameStarted = true;
 
@@ -53,6 +56,7 @@ public class GameController : MonoBehaviour
 
     humanManager.StopSpawning();
 
+    titleText.enabled = true;
     playButton.SetActive(true);
   }
 
